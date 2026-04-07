@@ -1,0 +1,26 @@
+PLINK v1.90b7 64-bit (16 Jan 2023)
+Options in effect:
+  --bfile g1000_noFinnish
+  --extract CYP1A2_rs.txt
+  --out CYP1A2_haploview
+  --recode HV
+
+Hostname: terpsichore.ccc.uam.es
+Working directory: /lustre/NodoBIO/genpsych/Our_GWAS
+Start time: Tue Mar 31 11:45:25 2026
+
+Random number seed: 1774950325
+128289 MB RAM detected; reserving 64144 MB for main workspace.
+22665064 variants loaded from .bim file.
+404 people (202 males, 202 females) loaded from .fam.
+--extract: 61 variants remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 404 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+61 variants and 404 people pass filters and QC.
+Note: No phenotypes present.
+CYP1A2_haploview.chr-15.ped + CYP1A2_haploview.chr-15.info created.
+--recode HV complete.
+
+End time: Tue Mar 31 11:45:31 2026
