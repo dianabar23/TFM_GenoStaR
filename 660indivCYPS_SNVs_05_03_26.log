@@ -1,0 +1,30 @@
+PLINK v1.90b7 64-bit (16 Jan 2023)
+Options in effect:
+  --bfile bfile_SNVs/5668_indiv_110742_SNVs_hg38_091224
+  --extract range CYPSconventana38SNV.txt
+  --keep 660_indiv_4_SNVs.list
+  --make-bed
+  --out 660indivCYPS_SNVs_05_03_26
+
+Hostname: terpsichore.ccc.uam.es
+Working directory: /lustre/home/cpodaru
+Start time: Thu Mar  5 12:32:13 2026
+
+Random number seed: 1772710333
+128289 MB RAM detected; reserving 64144 MB for main workspace.
+110742 variants loaded from .bim file.
+5668 people (0 males, 0 females, 5668 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to 660indivCYPS_SNVs_05_03_26.nosex .
+--extract range: 110400 variants excluded.
+--extract range: 342 variants remaining.
+--keep: 660 people remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 660 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate in remaining samples is 0.999464.
+342 variants and 660 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to 660indivCYPS_SNVs_05_03_26.bed + 660indivCYPS_SNVs_05_03_26.bim +
+660indivCYPS_SNVs_05_03_26.fam ... done.
+
+End time: Thu Mar  5 12:32:13 2026

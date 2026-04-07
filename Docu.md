@@ -165,7 +165,7 @@ Terminar de sacar los diplotipos de los 660 individuos para CYP1A2 y CYP3A4
 #### Filtrar por los rs que usa genostar
 Antes de seguir imputando a mano, se nos ocurre ver si el problema viene de que hay muchos rs en nuestros datos de inicio que Genostar no usa, para ello filtramos de los 51 individuos (df_CYP1A2_NA.csv) solo los rs que aparecern en la tabla de referencia que usa genostar, sacada de github genostar (CYP1A2_Allele_def_2.rda). Todo esta en el script filtrar_rs_referencia_genostar.
 #### Correr el genostar de los NA: assign_diplotype 
-Se ve que haciendo el filtrado se saca el diplotipo de los 51 pacientes restantes (CYP1A2_resultados_final_NA.rds), por lo que ya tenemos el diplotipo de los 660 pacientes 
+Se ve que haciendo el filtrado se saca el diplotipo de los 51 pacientes restantes (CYP1A2_resultados_final_NA.rds), por loq eu ya tenemos el diplotipo de los 660 pacientes 
 #### LIMITACIONES: guardar los rs que usa genostar pero no estan en nuestros datos 
 Todo esta en el script filtrar_rs_referencia_genostar. Esto se va a poder usar de limitación para ver si hay posibles alelos que no estemos viendo al hacer el filtrado (CYP1A2_Allele_def_rs_excluidos)
 
@@ -187,6 +187,8 @@ Como hemos visto que filtrando para los rs que estan en la referencia de genosta
 Se filtra de TODOS los individuos (df_CYP3A4.csv) solo los rs que aparecern en la tabla de referencia que usa genostar, sacada de github genostar (CYP3A5_Allele_def.rda). Todo esta en el script filtrar_rs_referencia_genostar.
 #### LIMITACIONES: guardar los rs que usa genostar pero no estan en nuestros datos 
 Todo esta en el script filtrar_rs_referencia_genostar. Esto se va a poder usar de limitación para ver si hay posibles alelos que no estemos viendo al hacer el filtrado (CYP3A4_Allele_def_rs_excluidos)
+#### LIMITACIONES: guardar los rs que usa genostar pero no estan en nuestros datos 
+Todo esta en el script filtrar_rs_referencia_genostar. Esto se va a poder usar de limitación para ver si hay posibles alelos que no estemos viendo al hacer el filtrado (CYP3A4_Allele_def_rs_excluidos)
 #### Correr el genostar de TODOS: assign_diplotype 
 Se saca el diplotipo de loS 660 individuos (CYP3A5_resultados_final_diplotipos)
 
@@ -194,7 +196,7 @@ Se saca el diplotipo de loS 660 individuos (CYP3A5_resultados_final_diplotipos)
 Da un error al intentar sacar el metabolizador 
 
 ### Resultados
-Para CYP1A2 ya se tienen los diplotipos de 609 individuos en CYP1A2_resultados_final.rds y los 51 individuos restantes en CYP1A2_resultados_final_NA.rds, todos sacados con genostar.  Para el CYP3A4 ya se tienen los diplotipos de 620 individuos en CYP3A4_resultados_final.rds y de los 40 individuos restantes en CYP3A4_resultados_final_NA.rds, todos sacados con genostar. 
+Para CYP1A2 ya se tienen los diplotipos de 609 individuos en CYP1A2_resultados_final.rds y los 51 individuos restantes en CYP1A2_resultados_final_NA.rds, todos sacados con genostar.  Para el CYP3A4 ya se tienen los diplotipos de  620 individuos en CYP3A4_resultados_final.rds y de los 40 individuos restantes en CYP3A4_resultados_final_NA.rds, todos sacados con genostar. 
 Para CYP1A2 ya se tienen los diplotipos de los 660 individuos en CYP3A5_resultados_final_diplotipos.rds, pero no los metabolizadores 
 
 
@@ -210,177 +212,11 @@ Me dijo que hasta el momento bien, pero que antes de seguir, me dijo de ir gen p
 ### Objetivo
 Analizar rs de CYP1A2  
 ### Resumen rs CYP1A2
-Hay 22 rs en comun entre genostar y los nuestros. Nosotros tenemos 60 más que genostar no usa. Genostar usa 24 más que nosotros no tenemos. En total hay 106 rs  
-#### Tabla  CYP1A2_TABLA_COMPLETA
--rsID: se saca de los resultados de R, por un lado los que solo estan en genostar se sacan de CYP1A2_Allele_def_rs_excluidos y los de nuestros datos de df_CYP1A2_NA
--POS (hg19): se saca con BUSCARV a hoja SNPs (solo con cromosoma 15 de 660indivCYPS_SNPs_19_02_26.bim)
--POS (hg38): se saca con BUSCARV a hoja SNVs (solo con cromosoma 15 de 660indivCYPS_SNVs_05_03_26.bim)
--Genostar SI/NO: se saca de los resultados de R (BUSCARV)
--Nuestros datos SI/NO: se saca de los resultados de R (BUSCARV)
--1k GENOMES SI/NO: se saca con BUSCARV a hoja 1K_genomes (del subset_g1000_chr15, que se saca filtrando g1000_noFinnish.bim por el cromosoma 15 y las posiciones de CYPSconventana19SNP)
-```bash
- awk '$1 ~ /^15$/ && $4 > 75000000 && $4 < 75100000 {print}' g1000_noFinnish.bim > subset_g1000_chr15.txt
- ```
--SNP: se saca con BUSCARV a hoja SNPs (solo con cromosoma 15 de 660indivCYPS_SNPs_19_02_26.bim). Undefined para las que no tenemos 
--SNV: se saca con BUSCARV a hoja SNVs (solo con cromosoma 15 de 660indivCYPS_SNVs_05_03_26.bim). Undefined para las que no tenemos 
--Genotipado: las SNVs son todas genotipadas y para las SNPs se saca con BUSCARV a hoja genotipadas (solo con cromosoma 15 de Variantes_genotipas_SNPs). Undefined para las que no tenemos 
--Imputado: al reves que genotipado. Undefined para las que no tenemos 
+Hay 22 rs en comun entre genostar y los nuestros. Nosotros tenemos 60 más que genostar no usa. Genostar usa 24 más que nosotros no tenemos 
+#### Tabla 
+Se crae la tabla CYP1A2_TABLA_COMPLETA con la info de los rs 
+#### LIMITACIONES: guardar los rs que usa genostar pero no estan en nuestros datos 
+Todo esta en el script filtrar_rs_referencia_genostar. Esto se va a poder usar de limitación para ver si hay posibles alelos que no estemos viendo al hacer el filtrado (CYP3A4_Allele_def_rs_excluidos)
 
 ### Resultados
-Tabla medio completa para poder hacer el LD 
-
-
-## 31/03/26
-### Objetivo
-Analizar rs de CYP1A2  
-### Resumen rs CYP1A2
-Hay 22 rs en comun entre genostar y los nuestros. Nosotros tenemos 60 más que genostar no usa. Genostar usa 24 más que nosotros no tenemos. En total hay 106 rs 
-#### Tabla  CYP1A2_TABLA_COMPLETA
--rsID: se saca de los resultados de R, por un lado los que solo estan en genostar se sacan de CYP1A2_Allele_def_rs_excluidos y los de nuestros datos de df_CYP1A2_NA
-
--POS (hg19): se saca con BUSCARV a hoja SNPs (solo con cromosoma 15 de 660indivCYPS_SNPs_19_02_26.bim). Se usa el LifOver de UCSC para crear la hoja lifover y poder pasar del hg38 al hg19 
-
--POS (hg38): se saca con BUSCARV a hoja SNVs (solo con cromosoma 15 de 660indivCYPS_SNVs_05_03_26.bim)
-
--Genostar SI/NO: se saca de los resultados de R (BUSCARV)
-
--Nuestros datos SI/NO: se saca de los resultados de R (BUSCARV)
-
--1k GENOMES SI/NO: se saca con BUSCARV a hoja 1K_genomes (del subset_g1000_chr15, que se saca filtrando g1000_noFinnish.bim por el cromosoma 15 y las posiciones de CYPSconventana19SNP)
-```bash
-awk '$1 ~ /^15$/ && $4 > 75000000 && $4 < 75100000 {print}' g1000_noFinnish.bim > subset_g1000_chr15.txt
- ```
- Se mete en el excel CYP1A2_TABLA_COMPLETA como hoja 1K_genomes
-
--SNP: se saca con BUSCARV a hoja SNPs (solo con cromosoma 15 de 660indivCYPS_SNPs_19_02_26.bim). Undefined para las que no tenemos 
-
--SNV: se saca con BUSCARV a hoja SNVs (solo con cromosoma 15 de 660indivCYPS_SNVs_05_03_26.bim). Undefined para las que no tenemos 
-
--Genotipado: las SNVs son todas genotipadas y para las SNPs se saca con BUSCARV a hoja genotipadas (solo con cromosoma 15 de Variantes_genotipas_SNPs). Undefined para las que no tenemos 
-
--Imputado: al reves que genotipado. Undefined para las que no tenemos 
-
--MAF: se saca con BUSCARV a hoja MAF (del CYP1A2_rs_haploview_data_export, que se saca:)
-##### 1. Crear CYP1A2_rs.txt con los 106 rs 
-##### 2. Sacar ped e info file con plink 
-Se usan como bfile los g1000_noFinnish para solo las rs de CYP1A2_rs.txt
-```bash
-plink --bfile g1000_noFinnish --extract CYP1A2_rs.txt --recode HV --out CYP1A2_haploview
- ```
-Solo se queda con las 61 rs que estan en 1K_genomes porque se ha usado g1000_noFinnish
-##### 3. Meter en haploview la info 
-En LINKAGE FORMAT se mete como data file: CYP1A2_haploview.chr-15.ped y como locus info: CYP1A2_haploview.chr-15.info
-##### 4. Exportar la tabla de Check Markers como CYP1A2_rs_haploview_data_export 
-Se mete en el excel CYP1A2_TABLA_COMPLETA como hoja MAF 
-
--HWpval: se saca con BUSCARV a hoja MAF
-
--HOJA LD: se saca con BUSCARV a hoja LD (del CYP1A2_rs_LD.ld, que se saca:)
-##### 1. Crear CYP1A2_rs.txt con los 106 rs (ya esta hecho de antes)
-##### 2. Sacar ped e info file con plink 
-Se usan como bfile los g1000_noFinnish para solo las rs de CYP1A2_rs.txt
-```bash
-plink --bfile g1000_noFinnish --extract CYP1A2_rs.txt --r2 --out CYP1A2_rs_LD
- ```
-Solo se queda con las 61 rs que estan en 1K_genomes porque se ha usado g1000_noFinnish
-##### 3. Se mete CYP1A2_rs_LD.ld en el excel CYP1A2_TABLA_COMPLETA como hoja LD  
-
-### Resultados 
-Analizando la primera hoja hemos visto que hay tres variantes rs45565238 (22), rs34067076 (23) y rs369511887 (24), resaltadas en amarillo, que estan en genostar y en 1K_genomes pero nosotros no las tenemos. Al analizarlas en la hoja del LD no salen por lo que no se puede inferir nada de ellas, son (PALABRA PARA DECIR QUE NO VAN A NINGUN LADO) 
-
-## 06/04/26
-### Objetivo
-Leer artículo PharmGKB CYP1A2 y seguir con cosas del CYP1A2 
-### Artículo PharmGKB CYP1A2 
-"PharmGKB summary: very important pharmacogene information for CYP1A2" del 2012
-Se ha visto que esta en nomenclatura old y hay tres rs importantes:
--rs762551: esta en nuestros datos y en genostar 
--rs2069514: esta en nuestros datos pero no en genostar. Se intenta ver si se podría inferir con alguno de los otros rs de genostar: es el rs9 y con haploview se ve que tiene r2 de 73 con los rs50 y rs51 pero no estan en genostar, al igual que un r2 de 22 con el rs5 que tampoco esta en genostar, por lo que no se puede inferir  
--rs12720461: esta en nuestros datos pero no en genostar. Se hizo lo mismo con el haploview y salian muchos con r2 de 22 pero ninguno estaba en genostar 
-### Resumen rs CYP1A2
--Hay 22 rs en comun entre genostar y los nuestros. Nosotros tenemos 60 más que genostar no usa. Genostar usa 24 más que nosotros no tenemos. En total hay 106 rS.
--La tabla CYP1A2_TABLA_COMPLETA ya esta hecha 
-#### De los 24 rs que estan en genostar pero no en nuestros datos 
--Analizando la primera hoja hemos visto que solo hay tres variantes rs45565238 (22), rs34067076 (23) y rs369511887 (24), resaltadas en amarillo, que estan en genostar y en 1K_genomes pero nosotros no las tenemos. Al analizarlas en la hoja del LD no salen por lo que no se puede inferir nada de ellas, son singleton 
--Analizando el excel CYP1A2_Allele_def_rs_excluidos (sacado con script filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos 24 rs en nuestros datos, son 24 haplotipos. Se sacan las frecuencias en la población de estos 24 haplotipos en el excel de CYP1A2_Allele_def_rs_excluidos en la hoja de filtradas, como no hay info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo. Y se ve que todos los *alelos que no se tienen en cuenta tienen una frecuencia muy muy baja en la población europea (non-Finnish)
-
-#### De los 60 rs que estan en nuestros datos pero no en genostar 
--Hay 8 rs que no estan en 1K_genomes y no se puede hacer nada
--rs2069514 y rs12720461 (del artículo 2013), resaltadas en rojo, estan en nuestros datos pero no en genostar, se intenta ver si se podría inferir con alguno de los otros rs de genostar con el r2 del haploview, pero con los que tiene algo de r2 tampoco estan en genostar, asi que son singleton 
--En la hoja de LD todas las relaciones que salen los rs estan en nuestros datos pero no es genostar asi que no se puede hacer nada, son singletons 
-
-### Resultados
-Se termina para el CYP1A2 
-
-
-
-## 07/04/26
-### Objetivo
-Analizar rs de CYP3A4  
-### Resumen rs CYP3A4
-Hay 18 rs en comun entre genostar y los nuestros. Nosotros tenemos 70 más que genostar no usa. Genostar usa 24 más que nosotros no tenemos. En total hay 106 rs 
-#### Tabla  CYP3A4_TABLA_COMPLETA
--rsID: se saca de los resultados de R, por un lado los que solo estan en genostar se sacan de CYP3A4_Allele_def_rs_excluidos y los de nuestros datos de df_CYP3A4_NA
-
--POS (hg19): se saca con BUSCARV a hoja SNPs (solo con cromosoma 7 de 660indivCYPS_SNPs_19_02_26.bim)
-
--POS (hg38): se saca con BUSCARV a hoja SNVs (solo con cromosoma 7 de 660indivCYPS_SNVs_05_03_26.bim)
-
--Genostar SI/NO: se saca de los resultados de R (BUSCARV)
-
--Nuestros datos SI/NO: se saca de los resultados de R (BUSCARV), se hace en R con colnames(CYP3A4_Allele_def)
-
--1k GENOMES SI/NO: se saca con BUSCARV a hoja 1K_genomes (del subset_g1000_chr7, que se saca filtrando g1000_noFinnish.bim por el cromosoma 7 y las posiciones de CYPSconventana19SNP)
-```bash
- awk '$1 ~ /^7$/ && $4 > 99340000 && $4 < 99390000 {print}' g1000_noFinnish.bim > subset_g1000_chr7.txt
- ```
- Se mete en el excel CYP3A4_TABLA_COMPLETA como hoja 1K_genomes
-
--SNP: se saca con BUSCARV a hoja SNPs (solo con cromosoma 7 de 660indivCYPS_SNPs_19_02_26.bim). Undefined para las que no tenemos 
-
--SNV: se saca con BUSCARV a hoja SNVs (solo con cromosoma 7 de 660indivCYPS_SNVs_05_03_26.bim). Undefined para las que no tenemos 
-
--Genotipado: las SNVs son todas genotipadas y para las SNPs se saca con BUSCARV a hoja genotipadas (solo con cromosoma 7 de Variantes_genotipas_SNPs). Undefined para las que no tenemos 
-
--Imputado: al reves que genotipado. Undefined para las que no tenemos 
-
--MAF: se saca con BUSCARV a hoja MAF (del CYP3A4_rs_haploview_data_export, que se saca:)
-##### 1. Crear CYP3A4_rs.txt con los 112 rs 
-##### 2. Sacar ped e info file con plink 
-Se usan como bfile los g1000_noFinnish para solo las rs de CYP3A4_rs.txt
-```bash
-plink --bfile g1000_noFinnish --extract CYP3A4_rs.txt --recode HV --out CYP3A4_haploview
- ```
-Solo se queda con las 64 rs que estan en 1K_genomes porque se ha usado g1000_noFinnish
-##### 3. Meter en haploview la info 
-En LINKAGE FORMAT se mete como data file: CYP3A4_haploview.chr-7.ped y como locus info: CYP3A4_haploview.chr-7.info
-##### 4. Exportar la tabla de Check Markers como CYP3A4_rs_haploview_data_export 
-Se mete en el excel CYP3A4_TABLA_COMPLETA como hoja MAF 
-
--HWpval: se saca con BUSCARV a hoja MAF
-
--HOJA LD: se saca con BUSCARV a hoja LD (del CYP3A4_rs_LD.ld, que se saca:)
-##### 1. Crear CYP3A4_rs.txt con los 112 rs (ya esta hecho de antes)
-##### 2. Sacar ped e info file con plink 
-Se usan como bfile los g1000_noFinnish para solo las rs de CYP3A4_rs.txt
-```bash
-plink --bfile g1000_noFinnish --extract CYP3A4_rs.txt --r2 --out CYP3A4_rs_LD
- ```
-Solo se queda con las 64 rs que estan en 1K_genomes porque se ha usado g1000_noFinnish
-##### 3. Se mete CYP3A4_rs_LD.ld en el excel CYP3A4_TABLA_COMPLETA como hoja LD  
-
-
--La tabla CYP3A4_TABLA_COMPLETA ya esta hecha 
-
-#### De los 24 rs que estan en genostar pero no en nuestros datos 
--Analizando la primera hoja hemos visto que solo hay dos variantes rs188389063 y rs4986908, resaltadas en amarillo, que estan en genostar y en 1K_genomes pero nosotros no las tenemos. Al analizarlas en la hoja del LD no salen por lo que no se puede inferir nada de ellas, son singleton 
--Analizando el excel CYP3A4_Allele_def_rs_excluidos (sacado con script filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos 24 rs en nuestros datos, son 24 haplotipos. Se sacan las frecuencias en la población de estos 24 haplotipos en el excel de CYP3A4_Allele_def_rs_excluidos en la hoja de filtradas, como no hay info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo. Y se ve que todos los *alelos que no se tienen en cuenta tienen una frecuencia muy muy baja en la población europea (non-Finnish), hay algunas que no se encuentran
-
-#### De los 70 rs que estan en nuestros datos pero no en genostar 
--Hay 15 rs que no estan en 1K_genomes y no se puede hacer nada 
--En la hoja de LD todas las relaciones que salen los rs estan en nuestros datos pero no es genostar asi que no se puede hacer nada, son singletons 
-
-### Resultados
-Se termina para el CYP3A4
-
-
+Me dijo que hasta el momento bien, pero que antes de seguir, me dijo de ir gen por gen y ver porque había rs que nosotros tenemos genotipados pero no usa genostar y ver porque genostar usa rs que no tenemos nosotros. Si es información redundante o si se esta dejando información importante fuera 
