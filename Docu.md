@@ -286,7 +286,7 @@ Se ha visto que esta en nomenclatura old y hay tres rs importantes:
 -La tabla CYP1A2_TABLA_COMPLETA ya esta hecha 
 #### De los 24 rs que estan en genostar pero no en nuestros datos 
 -Analizando la primera hoja hemos visto que solo hay tres variantes (marcadas en amarillo) que estan en genostar y en 1K_genomes pero no en nuestros datos. Al analizarlas en la hoja LD no salen por lo que no se puede inferir nada de ellas, son singleton 
--Analizando el excel CYP1A2_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos 24 rs en nuestros datos, son 24 haplotipos. Se sacan las frecuencias en la poblacion de estos 24 haplotipos en el excel de CYP1A2_Allele_def_rs_excluidos en la hoja de filtradas, como no hay info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo. Y se ve que todos los *alelos que no se tienen en cuenta tienen un frecuencia muy baja en la poblacion europea (non-Finnish). Hay uno que no se encuentra X3468AC (marcado en rojo)
+-Analizando el excel CYP1A2_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos 24 rs en nuestros datos, son 24 haplotipos. Se sacan las frecuencias en la poblacion de estos 24 haplotipos en el excel de CYP1A2_Allele_def_rs_excluidos en la hoja de filtradas, como no hay info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo. Y se ve que todos los *alelos que no se tienen en cuenta tienen un frecuencia muy baja en la poblacion europea (non-Finnish). Hay uno que no se encuentra X3468AC porque tiene nomenclatura rara (marcado en rojo)
 #### De los 60 rs que estan en nuestros datos pero no en genostar
 -Hay 8 rs que no estan en 1K_genomes y no se puede hacer nada 
 -rs2069514 y rs12720461 (del articulo del 2012), resaltados en rojo, estan en nuestros datos pero no en genostar, se intenta ver si se podrian inferir con alguno de los otros rs de genostar con el r2 del haploview, pero con lo que tienen algo de r2 tampoco estan en genostar, asi que son singleton 
@@ -304,7 +304,7 @@ Hacer y analizar tabla CYP3A4_TABLA_COMPLETA
 -Se hace la tabla CYP3A4_TABLA_COMPLETA como para CYP1A2
 #### De los 24 rs que estan en genostar pero no en nuestros datos 
 -Analizando la primera hoja hemos visto que solo hay dos variantes (marcadas en amarillo) que estan en genostar y en 1K_genomes pero no en nuestros datos. Al analizarlas en la hoja LD no salen por lo que no se puede inferir nada de ellas, son singleton 
--Analizando el excel CYP3A4_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos 24 rs en nuestros datos, son 24 haplotipos. Se sacan las frecuencias en la poblacion de estos 24 haplotipos en el excel de CYP3A4_Allele_def_rs_excluidos en la hoja de filtradas, como no hay info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo. Y se ve que todos los *alelos que no se tienen en cuenta tienen un frecuencia muy baja en la poblacion europea (non-Finnish), hay algunos que se buscan en el UCSC (marcados en amarillo) y cuatro que no se encuentran (marcados en rojo) 
+-Analizando el excel CYP3A4_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos 24 rs en nuestros datos, son 24 haplotipos. Se sacan las frecuencias en la poblacion de estos 24 haplotipos en el excel de CYP3A4_Allele_def_rs_excluidos en la hoja de filtradas, como no hay info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo. Y se ve que todos los *alelos que no se tienen en cuenta tienen un frecuencia muy baja en la poblacion europea (non-Finnish), hay algunos que se buscan en el UCSC (marcados en amarillo) y cinco que no se encuentran, cuatro porque tienen nomenclatura rara (marcados en rojo) y uno porque no esta su frecuencia en ninguna base de datos (marcado en morado)
 #### De los 60 rs que estan en nuestros datos pero no en genostar
 -Hay 15 rs que no estan en 1K_genomes y no se puede hacer nada 
 -En la hoja LD todas las relaciones que salen, los rs estan en nuestros datos pero no en genostar, asi que no se puede hacer nada, son singletons  
@@ -323,23 +323,23 @@ Se hace el repositorio bien
 
 ## 09/04/26
 ### Objetivo
-Mirar las limitaciones de CYP3A5 y sacar diplotipos y limitaciones de CYP2C19 y CYP2C9 
+Mirar las limitaciones de CYP3A5 y sacar diplotipos y limitaciones de CYP2C19, CYP2C9, CYP2B6 y CYP2D6
 ### Resumen rs CYP3A5
 -Hay 4 rs en comun entre genostar y los nuestros. Nosotros tenemos 73 más que genostar no usa. Genostar usa 1 más que nosotros no tenemos. En total hay 78 rs 
 -Ya no se hace la TABLA COMPLETA para CYP3A5 porque se ha visto que no da info 
-#### Del rs que esta en genostar pero no en nuestros datos 
+#### Del rs que esta en genostar pero no en nuestros datos (limitaciones)
 -Analizando el excel CYP3A5_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener ese rs en nuestros datos, es 1 haplotipo. Se sacan la frecuencia en la poblacion de ese haplotipos en el excel de CYP3A5_Allele_def_rs_excluidos en la hoja de filtradas, se saca de CYP3A5_frequency_table (descaragdo de ClinPGX pharmacogene table frequencies), se mira ese *alelo para Europeos y se ve que no tiene frecuencia asi que bien. 
 
 
-### Pasos CYP2C19
-En filtrar_rs_referencia_genostar: primero se filtra por rs comunes para que sea más rápido (se guarda CYP2C19_Allele_def_rs_excluidos para las limitaciones) y luego se aplica genostar assign_diplotype (se guarda en CYP2C19_resultados_final_diplotipos). Al usar all_geno_pheno para metabolizador da error
-### Resumen rs CYP2C19
--Hay 24 rs en comun entre genostar y los nuestros. Nosotros tenemos 303 más que genostar no usa. Genostar usa 11 más que nosotros no tenemos. En total hay 338 rs 
--Ya no se hace la TABLA COMPLETA para CYP2C19 porque se ha visto que no da info 
-#### De los 11 que esta en genostar pero no en nuestros datos 
--Analizando el excel CYP2C19_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos rs en nuestros datos, son 12 haplotipos. Se sacan la frecuencia en la poblacion de esos 12 haplotipos en el excel de CYP2C19_Allele_def_rs_excluidos en la hoja de filtradas, se saca de CYP2C19_frequency_table dos frecuencias (descaragdo de ClinPGX pharmacogene table frequencies) las marcadas en verde, se miran esos *alelos para Europeos. Luego hay otras que no tienen info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo, hay algunos que se buscan en el UCSC (marcados en amarillo) y dos que no se encuentran (marcados en rojo)  
-#### Diplotipos CYP2C19
-No salen todo salen muchos unknown (CYP2C19_resultados_final_diplotipos)
+### Pasos CYP2B6
+En filtrar_rs_referencia_genostar: primero se filtra por rs comunes para que sea más rápido (se guarda CYP2B6_Allele_def_rs_excluidos para las limitaciones) y luego se aplica genostar assign_diplotype (se guarda en CYP2B6_resultados_final_diplotipos). Al usar all_geno_pheno para metabolizador da error
+### Resumen rs CYP2B6
+-Hay 30 rs en comun entre genostar y los nuestros. Nosotros tenemos 232 más que genostar no usa. Genostar usa 18 más que nosotros no tenemos. En total hay 280 rs 
+-Ya no se hace la TABLA COMPLETA para CYP2B6 porque se ha visto que no da info 
+#### De los 18 que esta en genostar pero no en nuestros datos (limitaciones)
+-Analizando el excel CYP2B6_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos rs en nuestros datos, son 21 haplotipos. Se sacan la frecuencia en la poblacion de esos 21 haplotipos en el excel de CYP2B6_Allele_def_rs_excluidos en la hoja de filtradas, se saca de CYP2B6_frequency_table cinco frecuencias (descaragdo de ClinPGX pharmacogene table frequencies) las marcadas en verde, se miran esos *alelos para Europeos. Luego hay otras que no tienen info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo, hay cuatro que no se encuentran porque tienen nomenclatura rara (marcados en rojo). El error es muy alto 
+#### Diplotipos CYP2B6
+En CYP2B6_resultados_final_diplotipos
 
 
 ### Pasos CYP2C9
@@ -347,10 +347,61 @@ En filtrar_rs_referencia_genostar: primero se filtra por rs comunes para que sea
 ### Resumen rs CYP2C9
 -Hay 41 rs en comun entre genostar y los nuestros. Nosotros tenemos 262 más que genostar no usa. Genostar usa 39 más que nosotros no tenemos. En total hay 342 rs 
 -Ya no se hace la TABLA COMPLETA para CYP2C9 porque se ha visto que no da info 
-#### De los 11 que esta en genostar pero no en nuestros datos 
--Analizando el excel CYP2C9_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos rs en nuestros datos, son 12 haplotipos. Se sacan la frecuencia en la poblacion de esos 12 haplotipos en el excel de CYP2C9_Allele_def_rs_excluidos en la hoja de filtradas, se saca de CYP2C9_frequency_table dos frecuencias (descaragdo de ClinPGX pharmacogene table frequencies) las marcadas en verde, se miran esos *alelos para Europeos. Luego hay otras que no tienen info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo, hay algunos que se buscan en el UCSC (marcados en amarillo) y dos que no se encuentran (marcados en rojo)  
+#### De los 39 que esta en genostar pero no en nuestros datos (limitaciones)
+-Analizando el excel CYP2C9_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos rs en nuestros datos, son 40 haplotipos. Se sacan la frecuencia en la poblacion de esos 40 haplotipos en el excel de CYP2C9_Allele_def_rs_excluidos en la hoja de filtradas, se saca de CYP2C9_frequency_table ocho frecuencias (descaragdo de ClinPGX pharmacogene table frequencies) las marcadas en verde, se miran esos *alelos para Europeos. Luego hay otras que no tienen info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo, hay 18 que no se encuentran porque tienen nomenclatura rara (marcados en rojo) 
 #### Diplotipos CYP2C9
 En CYP2C9_resultados_final_diplotipos
 
+
+
+### Pasos CYP2C19
+En filtrar_rs_referencia_genostar: primero se filtra por rs comunes para que sea más rápido (se guarda CYP2C19_Allele_def_rs_excluidos para las limitaciones) y luego se aplica genostar assign_diplotype (se guarda en CYP2C19_resultados_final_diplotipos). Al usar all_geno_pheno para metabolizador da error
+### Resumen rs CYP2C19
+-Hay 24 rs en comun entre genostar y los nuestros. Nosotros tenemos 303 más que genostar no usa. Genostar usa 11 más que nosotros no tenemos. En total hay 338 rs 
+-Ya no se hace la TABLA COMPLETA para CYP2C19 porque se ha visto que no da info 
+#### De los 11 que esta en genostar pero no en nuestros datos (limitaciones)
+-Analizando el excel CYP2C19_Allele_def_rs_excluidos (sacado con srcipt filtrar_rs_referencia_genostar), se hace una nueva hoja (filtrada) para ver que haplotipos estamos dejando fuera al no tener esos rs en nuestros datos, son 12 haplotipos. Se sacan la frecuencia en la poblacion de esos 12 haplotipos en el excel de CYP2C19_Allele_def_rs_excluidos en la hoja de filtradas, se saca de CYP2C19_frequency_table dos frecuencias (descaragdo de ClinPGX pharmacogene table frequencies) las marcadas en verde, se miran esos *alelos para Europeos. Luego hay otras que no tienen info en ClinPGX se usa GenomAD y se usa el rs asociado a ese *alelo, hay cinco que no se encuentran, dos porque tienen nomenclatura rara (marcados en rojo) y tres porque no esta su frecuencia en ninguna base de datos (marcado en morado) 
+#### Diplotipos CYP2C19
+No salen todo, salen muchos unknown (CYP2C19_resultados_final_diplotipos), deberíamos tener en cuenta los CNVs 
+
+
+
+### Pasos CYP2D6
+En filtrar_rs_referencia_genostar: primero se filtra por rs comunes para que sea más rápido (se guarda CYP2D6_Allele_def_rs_excluidos para las limitaciones) y luego se aplica genostar assign_diplotype (se guarda en CYP2D6_resultados_final_diplotipos) pero no sale creo que es por las CNVs 
+### Resumen rs CYP2D6
+-Hay 40 rs en comun entre genostar y los nuestros. Nosotros tenemos 77 más que genostar no usa. Genostar usa 110 más que nosotros no tenemos. En total hay 227 rs 
+-Ya no se hace la TABLA COMPLETA para CYP2B6 porque se ha visto que no da info 
+-Necesita CNVs
+-No se calcula el error, hasta meter las CNVs 
+
+
 ### Resultados
-Se terminan las limitaciones del CYP3A5, CYP2C19 y CYP2C9. Se sacan los diplotipos de 
+-Se terminan las limitaciones del CYP3A5 y CYP2B6 bien. El error de CYP2B6 es muy alto mirar la razon 
+-Tambien se hace el error para CYP2C19 y CYP2C9
+-Para CYP2C19 los diplotipos salen mal, deberían mirarse las CNVs
+-Para CYP2D6 no sale nada, se necesitan los CNVs 
+
+
+
+## 10/04/26
+### Objetivo 
+-CNVs 
+-Tabla general resumen 
+-Mirar el error alto de CYP2B6 
+-Organizar carpeta 
+-Apuntar dudas genostar 
+-Leer información Genostar del github (las funciones de man y en R el genotype_conversion y en data el allele_definitions_snapshot_2025-08-13) 
+### CNVs en CNV_gene_overlap_database en la hoja filtered (SON PERSONAS)
+Hat 125 en total en filtradas 
+-CYP1A2: nada 
+-CYP3A4: 1 duplicacon 
+-CYP3A5: 1 duplicacion 
+-CYP2C19: 19 duplicaciones y 2 deleciones
+-CYP2C9: 19 duplicaciones
+-CYP2B6: 1 duplicacion y 1 delecion 
+-CYP2D6: 79 duplicaciones y 2 deleciones 
+### Tabla general resumen 
+
+
+### Resultados
+Hay muchos individuos con CNVs en CYP2D6, CYP2C19 y CYP2C9, hay que mirar si afecta en genostar o no 
