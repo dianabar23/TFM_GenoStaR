@@ -225,7 +225,7 @@ Hacer tabla CYP1A2_TABLA_COMPLETA
 #### Tabla CYP1A2_TABLA_COMPLETA 
 Se hace con BUSCARV 
 -rsID: resultados de R 
--POS (hg19): se saca con BUSCARV a hoja SNP (se hace un lifover tambien)
+-POS (hg19): se saca con BUSCARV a hoja SNP (se hace un liftover tambien)
 -POS (hg38): se saca con BUSCARV a hoja SNV 
 
 -Genostar: con BUSCARV de resulatdos de R 
@@ -386,11 +386,7 @@ En filtrar_rs_referencia_genostar: primero se filtra por rs comunes para que sea
 ## 10/04/26
 ### Objetivo 
 -CNVs 
--Tabla general resumen 
--Mirar el error alto de CYP2B6 
--Organizar carpeta 
--Apuntar dudas genostar 
--Leer información Genostar del github (las funciones de man y en R el genotype_conversion y en data el allele_definitions_snapshot_2025-08-13) 
+-Organizar carpetas 
 ### CNVs en CNV_gene_overlap_database en la hoja filtered (SON PERSONAS)
 Hat 125 en total en filtradas 
 -CYP1A2: nada 
@@ -400,8 +396,99 @@ Hat 125 en total en filtradas
 -CYP2C9: 19 duplicaciones
 -CYP2B6: 1 duplicacion y 1 delecion 
 -CYP2D6: 79 duplicaciones y 2 deleciones 
-### Tabla general resumen 
-
-
 ### Resultados
 Hay muchos individuos con CNVs en CYP2D6, CYP2C19 y CYP2C9, hay que mirar si afecta en genostar o no 
+
+
+
+## 13/04/26
+### Objetivo  
+-Tabla general resumen 
+-Mirar el error alto de CYP2B6  
+### Tabla general resumen 
+Se juntan todos los datos de los CYPS en TABLA_RESUMEN_CYPS 
+-rs total, rs comunes, rs solo nosotros, rs solo genostar: se saca de la info apuntada en este documento
+-nº *alelos no tenidos en cuenta en genostar: se saca de CYPX_Allele_def_rs_excluidos. Se añade esta columna porque un rs (de solo genostar) puede dar a más de un alelo
+-nº *alelos sin frec poblacional de los *alelos no tenidos en cuenta en genostar: se saca de CYPX_Allele_def_rs_excluidos (marcados en rojo o morado)
+-Error rs solo genostar : se saca de CYPX_Allele_def_rs_excluidos
+### Mirar el error alto de CYP2B6
+Un 14.02% del 14.07% del error se debe a la variante rs3211371 que define el *5 y *7 muy frecuentes en la población europea, se cree que es que no esta genotipada. Al buscar en Variantes_genotipas_SNPs no sale y en concatenar_CYPS, que son todas las variantes que tenemos en cuenta. Se me ocurre mirar si esta en LD alto con alguna de las que si que tenemos genotipadas. 
+#### MAF y LD y haploview 
+Se hace la tabla CYP2B6_TABLA_ERROR_LD
+-rsID: resultados de R 
+-Genostar: con BUSCARV de resulatdos de R 
+
+-Nuestros datos: con BUSCARV de resultados de R
+
+-1K_genomes: se saca con BUSCARV a hoja 1K_genomes (se saca de subset_g1000_chr19.txt al filtrar g1000_noFinnish.bim por cromosoma 19 y las posiciones del CYP2B6 de CYPSconventana19SNP)
+```bash
+awk '$1 ~ /^19$/ && $4 > 41492187 && $4 < 41529303 {print}' g1000_noFinnish.bim > subset_g1000_chr19.txt
+```
+Nos salen 211 rs que estan tanto en nuestros datos como en 1K_genomes 
+
+-MAF: se saca con BUSCARV a hoja MAF (del CYP2B6_rs_haploview_data_export, que se saca:)
+##### 1. Crear CYP2B6_rs.txt con los 262 rs que nosotros tenemos y el rs3211371 
+##### 2. Sacar ped e info file con plink 
+Se usan como bfile los g1000_noFinnish (sacado de marte) para solo las rs de CYP2B6_rs.txt 
+```bash
+plink --bfile g1000_noFinnish --extract CYP2B6_rs.txt --recode HV --out CYP2B6_haploview  
+```
+Solo se queda con 212 rs, las 211 rs que estan en 1K_genomes porque ha usado g1000_noFinnish y la rs3211371
+##### 3. Meter en haploview la info
+En LINKAGE FORMAT se mete como data file: CYP2B6_haploview.chr-15.ped y como locus info: CYP2B6_haploview.chr-15.info
+##### 4. Exportar la tabla de Check Markers como CYP2B6_rs_haploview_data_export
+
+-HWpval: se saca con BUSCARV a hoja MAF 
+
+-HOJA LD: se saca del CYP2B6_rs_LD.ld, que se saca:
+##### 1. Crear CYP2B6_rs.txt con los 262 rs que nosotros tenemos y el rs3211371 
+##### 2. Sacar ped e info file con plink 
+Se usan como bfile los g1000_noFinnish (sacado de marte) para solo las rs de CYP2B6_rs.txt 
+```bash
+plink --bfile g1000_noFinnish --extract CYP2B6_rs.txt --r2 --out CYP2B6_rs_LD 
+```
+Solo se queda con 212 rs, las 211 rs que estan en 1K_genomes porque ha usado g1000_noFinnish y la rs3211371
+##### 3. Meter CYP2B6_rs_LD.ld en la tabla
+
+Al mirar el haploview es la 170 pero no tiene LD alto con ninguna de las nuestras y en la tabla de LD no aparece
+
+#### Frecuencia población europea *5 y rs3211371 
+Es la misma frec asi que perfecto 
+-5*: 0.11547839 (CYP2B6_frequency_table)
+-rs3211371: en GnomAD 0.1230 (https://gnomad.broadinstitute.org/variant/19-41016810-C-T?dataset=gnomad_r4), en 1K_genomes (hoja MAF de CYP2B6_TABLA_ERROR_LD) 0.1230, en dbSNP 0.09212 (https://www.ncbi.nlm.nih.gov/snp/rs3211371)
+
+
+
+### Resultados 
+Se hace la TABLA_RESUMEN_CYPS (falta CYP2D6 pero cuando tengamos las CNVs nuevas) y todos los errores bien excepto para CYP2B6, que la culpable es rs3211371. Info sobre esta variante:
+-La usa genostar pero nosotros no la tenemos 
+-Si que se genotipó pero por filtrado se eliminó
+-Es Trialelica 
+-Da el *5 sola, *7 con otras variantes y *33 y *34 (pero no contribuyen al error)
+-El *5 es muy frecuente en poblacion europea pero da METABOLIZADOR NORMAL
+-La frecuencia de *5 y de rs3211371 es la misma 
+Se llega a la conclusion de que aunque la frecuencia es alta, da metabolizador normal por lo que no importa mucho 
+
+
+## 14/04/26
+### Objetivo
+-Sacar frecuencias diplotipos y metabolizadores  
+### Resultados
+ 
+
+
+## 15/04/26
+### Objetivo
+-Sacar frecuencias diplotipos y metabolizadores  
+### Resultados
+
+
+
+
+## 16/04/26
+### Objetivo
+-Apuntar dudas genostar 
+-Leer información Genostar del github (las funciones de man y en R el genotype_conversion y en data el allele_definitions_snapshot_2025-08-13) 
+-Reunion Claudio 
+### Resultados
+
