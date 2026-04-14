@@ -457,8 +457,6 @@ Es la misma frec asi que perfecto
 -5*: 0.11547839 (CYP2B6_frequency_table)
 -rs3211371: en GnomAD 0.1230 (https://gnomad.broadinstitute.org/variant/19-41016810-C-T?dataset=gnomad_r4), en 1K_genomes (hoja MAF de CYP2B6_TABLA_ERROR_LD) 0.1230, en dbSNP 0.09212 (https://www.ncbi.nlm.nih.gov/snp/rs3211371)
 
-
-
 ### Resultados 
 Se hace la TABLA_RESUMEN_CYPS (falta CYP2D6 pero cuando tengamos las CNVs nuevas) y todos los errores bien excepto para CYP2B6, que la culpable es rs3211371. Info sobre esta variante:
 -La usa genostar pero nosotros no la tenemos 
@@ -472,14 +470,53 @@ Se llega a la conclusion de que aunque la frecuencia es alta, da metabolizador n
 
 ## 14/04/26
 ### Objetivo
--Sacar frecuencias diplotipos y metabolizadores  
+-Sacar frecuencias diplotipos, allele star para CYP1A2, CYP3A4, CYP3A5, CYP2C19, CYP2C9 y CYP2B6 y metabolizadores para CYP3A5, CYP2C19, CYP2C9 y CYP2B6
+### Se generan tablas y gráficas 
+#### Tabla CYP_tabla_diplotipos: ID Y DIPLOTIPO 
+Con cualquiera de los scripts, usa de input CYP_resultados_final_diplotipos 
+#### Plot CYP_plot_frec_diplotipos: FRECUENCIA ABSOLUTA DIPLOTIPOS
+Con script_plot_frec_diplotipos, usa de input CYP_resultados_final_diplotipos
+Se ven todos los diplotipos grises
+#### Plot CYP_plot_prop_diplotipos: PROPORCIONES DIPLOTIPOS  
+Con script_plot_prop_diplotipos, usa de input CYP_resultados_final_diplotipos
+Se ven en rojo los diplotipos NA, en verde el *1/*1 y en azul otros diplotipos 
+#### Plot CYP_plot_prop_star_allele: PROPORCIONES STAR ALLELES  
+Con script_plot_prop_allele_star, usa de input CYP_resultados_final_diplotipos
+Se ven en rojo los NA, en verde el *1 y en azul otros *alelos
+#### Plot CYP_plot_prop_diplotipos_metabolizador: PROPORCIONES DIPLOTIPOS coloreados por METABOLIZADOR 
+Con script_plot_prop_diplotipos_metabolizadores, usa de input CYP_resultados_final_diplotipos y las CYP_Diplotype_Phenotype_Table (pharmacogene tables de ClinPGX)
+Se colorean los diplotipos según el metabolizador  
+#### Plot CYPs_plot_prop_metabolizador: PROPORCIONES METABOLIZADOR todos los CYPs 
+Con script_plot_prop_metabolizador_CYPS, usa de input CYP_resultados_final_diplotipos y las CYP_Diplotype_Phenotype_Table (pharmacogene tables de ClinPGX)
 ### Resultados
- 
+Se saca 
+-CYP_tabla_diplotipos: ID Y DIPLOTIPO
+-CYP_plot_frec_diplotipos: FRECUENCIA ABSOLUTA DIPLOTIPOS
+-CYP_plot_prop_diplotipos: PROPORCIONES DIPLOTIPOS
+-CYP_plot_prop_star_allele: PROPORCIONES STAR ALLELES 
+-CYP_plot_prop_diplotipos_metabolizador: PROPORCIONES DIPLOTIPOS coloreados por METABOLIZADOR (no se hace para CYP1A2 y CYP3A4 porque no hay CYP_Diplotype_Phenotype_Table)
+-CYPs_plot_prop_metabolizador: PROPORCIONES METABOLIZADOR todos los CYPs 
+
+Estaria bien mirar los metabolizadores de CYP1A2 y CYP3A4
 
 
 ## 15/04/26
 ### Objetivo
--Sacar frecuencias diplotipos y metabolizadores  
+-Charla prevención 
+-Comparar si las proporciones que nos han salido de *allele star y diplotipos se corresponden con las frecuencias poblacionales esperadas 
+### CYP1A2
+No hay tabla referencia 
+### CYP3A4
+No hay tabla referencia
+### CYP2C19
+No se sacaron bien los diplotipos de este CYP, mirar con CNVs 
+### CYP3A5
+Se compara CYP3A5_plot_prop_star_allele con CYP3A5_frequency_table y cuadra perfecto 
+### CYP2C9
+Se comparan CYP2C9_plot_prop_star_allele con CYP2C9_frequency_table y cuadra perfecto 
+### CYP2B6
+Se comparan CYP2B6_plot_prop_star_allele con CYP2B6_frequency_table, cuadra más o menos excepto el *5 que no esta en nuestros datos y es frecuente en la población 
+
 ### Resultados
 
 
@@ -491,4 +528,9 @@ Se llega a la conclusion de que aunque la frecuencia es alta, da metabolizador n
 -Leer información Genostar del github (las funciones de man y en R el genotype_conversion y en data el allele_definitions_snapshot_2025-08-13) 
 -Reunion Claudio 
 ### Resultados
+
+
+
+
+## La semana siguiente: CNVs y CYP2D6 y CYP2C19
 

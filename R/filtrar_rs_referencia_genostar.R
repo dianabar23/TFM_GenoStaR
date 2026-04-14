@@ -1,16 +1,18 @@
 library("GenoStaR")
 
 
-### PARA CYP1A2: sobre los que GENOSTAR sacaba NA 
+### PARA CYP1A2: sobre TODOS los individuos, luego se hace el genostar
 #1. Cargar la tabla de refencia de genostar (descargada de su github)
-setwd("C:/Users/CBM/Desktop/TFM_GenoStaR")
+setwd("X:/Fobos/Proyecto_Diana/TFM_GenoStaR")
 load("CYP1A2_Allele_def_2.rda")
 
-#2. Cargar el csv que sale del srcipt_genostar una filtrado por los que individuos NA (sin diplotipo)
-df_CYP1A2_NA <- read.csv("df_CYP1A2_NA.csv", 
-                         header = TRUE, 
-                         sep = ";", 
-                         stringsAsFactors = FALSE)
+#2. Cargar el csv con todos los individuos 
+load("matrix_geno_fixed_corregido.RData")
+genotypes <- matrix_geno_fixed
+
+df_CYP1A2 <- genotypes %>% 
+  select(LabID.V2, starts_with("CYP1A2_rs"))
+
 
 
 #3. Filtrar para los SNPs en comun 
@@ -22,7 +24,7 @@ library(tidyr)
 cols_referencia <- colnames(CYP1A2_Allele_def_2)[-1]
 
 # 2. Transformación y Filtrado Dinámico
-df_resultado <- df_CYP1A2_NA %>%
+df_resultado <- df_CYP1A2 %>%
   # Pasamos a formato largo (Tidy data)
   pivot_longer(
     cols = starts_with("CYP1A2_"), 
@@ -41,23 +43,14 @@ df_resultado <- df_CYP1A2_NA %>%
   )
 
 
-#4. Lanzar genostar para solo SNPs comunes 
-salida_CYP1A2_NA <- assign_diplotype(df_resultado, 
-                         c("CYP1A2"),
-                         phased = FALSE, CYP1A2_name = "new")
-
-
-saveRDS(salida_CYP1A2_NA, "CYP1A2_resultados_final_NA.rds")
-
-
-#5. Calcular limitaciones: ver que *alelos no se tienen en cuenta 
+#4. Calcular limitaciones: ver que *alelos no se tienen en cuenta 
 library(dplyr)
 library(stringr)
 library(writexl)
 
 #  Extraer los nombres de las columnas de los individuos 
 # Quitamos el prefijo para que coincidan con los nombres en la tabla de definiciones
-cols_presentes <- colnames(df_CYP1A2_NA)[-1] %>% 
+cols_presentes <- colnames(df_CYP1A2)[-1] %>% 
   str_remove("CYP1A2_")
 
 #  Identificar y filtrar las columnas que NO están en los individuos
@@ -81,18 +74,28 @@ write_xlsx(CYP1A2_Allele_def_rs_excluidos, "CYP1A2_Allele_def_rs_excluidos.xlsx"
 
 
 
+#4. Lanzar genostar solo paralos SNPs comunes (todos los individuos)
+salida_CYP1A2_diplotipos <- assign_diplotype(df_resultado, 
+                                             c("CYP1A2"),
+                                             phased = FALSE, CYP1A2_name = "new")
+saveRDS(salida_CYP1A2_diplotipos, "CYP1A2_resultados_final_diplotipos.rds")
 
 
-### PARA CYP3A4: sobre los que GENOSTAR sacaba NA 
+
+
+
+### PARA CYP3A4: sobre TODOS los individuos, luego se hace el genostar
 #1. Cargar la tabla de refencia de genostar (descargada de su github)
-setwd("C:/Users/CBM/Desktop/TFM_GenoStaR")
+setwd("X:/Fobos/Proyecto_Diana/TFM_GenoStaR")
 load("CYP3A4_Allele_def.rda")
 
-#2. Cargar el csv que sale del srcipt_genostar una filtrado por los que individuos NA (sin diplotipo)
-df_CYP3A4_NA <- read.csv("df_CYP3A4_NA.csv", 
-                         header = TRUE, 
-                         sep = ";", 
-                         stringsAsFactors = FALSE)
+#2. Cargar el csv con todos los individuos 
+load("matrix_geno_fixed_corregido.RData")
+genotypes <- matrix_geno_fixed
+
+df_CYP3A4 <- genotypes %>% 
+  select(LabID.V2, starts_with("CYP3A4_rs"))
+
 
 
 #3. Filtrar para los SNPs en comun 
@@ -104,7 +107,7 @@ library(tidyr)
 cols_referencia <- colnames(CYP3A4_Allele_def)[-1]
 
 # 2. Transformación y Filtrado Dinámico
-df_resultado <- df_CYP3A4_NA %>%
+df_resultado <- df_CYP3A4 %>%
   # Pasamos a formato largo (Tidy data)
   pivot_longer(
     cols = starts_with("CYP3A4_"), 
@@ -123,21 +126,14 @@ df_resultado <- df_CYP3A4_NA %>%
   )
 
 
-#4. Lanzar genostar para solo SNPs comunes 
-salida_CYP3A4_NA <- assign_diplotype(df_resultado, 
-                                     c("CYP3A4"),
-                                     phased = FALSE)
-saveRDS(salida_CYP3A4_NA, "CYP3A4_resultados_final_NA.rds")
-
-
-#5. Calcular limitaciones: ver que *alelos no se tienen en cuenta 
+#4. Calcular limitaciones: ver que *alelos no se tienen en cuenta 
 library(dplyr)
 library(stringr)
 library(writexl)
 
 #  Extraer los nombres de las columnas de los individuos 
 # Quitamos el prefijo para que coincidan con los nombres en la tabla de definiciones
-cols_presentes <- colnames(df_CYP3A4_NA)[-1] %>% 
+cols_presentes <- colnames(df_CYP3A4)[-1] %>% 
   str_remove("CYP3A4_")
 
 #  Identificar y filtrar las columnas que NO están en los individuos
@@ -158,6 +154,14 @@ colnames(CYP3A4_Allele_def_rs_excluidos)[-1]
 write_xlsx(CYP3A4_Allele_def_rs_excluidos, "CYP3A4_Allele_def_rs_excluidos.xlsx")
 
 
+
+
+
+#4. Lanzar genostar solo paralos SNPs comunes (todos los individuos)
+salida_CYP3A4_diplotipos <- assign_diplotype(df_resultado, 
+                                             c("CYP3A4"),
+                                             phased = FALSE)
+saveRDS(salida_CYP3A4_diplotipos, "CYP3A4_resultados_final_diplotipos.rds")
 
 
 
