@@ -191,7 +191,7 @@ Se saca el diplotipo de loS 660 individuos (CYP3A5_resultados_final_diplotipos)
 Da un error al intentar sacar el metabolizador 
 
 ### Resultados
--Para CYP1A2 ya se tienen los diplotipos de 609 individuos en CYP1A2_resultados_final.rds y los 51 individuos restantes en CYP1A2_resultados_final_NA.rds, todos sacados con genostar.  
+-Para CYP1A2 ya se tienen los diplotipos de 609 individuos en CYP1A2_resultados_final.rds y los 51 individuos restantes en CYP1A2_resultados_final_NA.rds, todos sacados con genostar 
 -Para el CYP3A4 ya se tienen los diplotipos de  620 individuos en CYP3A4_resultados_final.rds y de los 40 individuos restantes en CYP3A4_resultados_final_NA.rds, todos sacados con genostar. 
 -Para CYP3A5 ya se tienen los diplotipos de los 660 individuos en CYP3A5_resultados_final_diplotipos.rds, pero no los metabolizadores 
 
@@ -210,7 +210,7 @@ Analizar rs de CYP1A2 y reunión con Claudio
 ### Resumen rs CYP1A2
 Hay 22 rs en comun entre genostar y los nuestros. Nosotros tenemos 60 más que genostar no usa. Genostar usa 24 más que nosotros no tenemos 
 #### LIMITACIONES: guardar los rs que usa genostar pero no estan en nuestros datos 
-Todo esta en el script filtrar_rs_referencia_genostar. Esto se va a poder usar de limitación para ver si hay posibles alelos que no estemos viendo al hacer el filtrado (CYP3A4_Allele_def_rs_excluidos)
+Todo esta en el script filtrar_rs_referencia_genostar. Esto se va a poder usar de limitación para ver si hay posibles alelos que no estemos viendo al hacer el filtrado (CYP1A2_Allele_def_rs_excluidos)
 
 ### Resultados
 Me dijo que hasta el momento bien, pero que antes de seguir, me dijo de ir gen por gen y ver porque había rs que nosotros tenemos genotipados pero no usa genostar y ver porque genostar usa rs que no tenemos nosotros. Si es información redundante o si se esta dejando información importante fuera 
@@ -503,34 +503,59 @@ Estaria bien mirar los metabolizadores de CYP1A2 y CYP3A4
 ## 15/04/26
 ### Objetivo
 -Charla prevención 
--Comparar si las proporciones que nos han salido de *allele star y diplotipos se corresponden con las frecuencias poblacionales esperadas 
-### CYP1A2
-No hay tabla referencia 
-### CYP3A4
-No hay tabla referencia
-### CYP2C19
-No se sacaron bien los diplotipos de este CYP, mirar con CNVs 
+-Comparar si las proporciones que nos han salido de *allele star se corresponden con las frecuencias poblacionales esperadas 
 ### CYP3A5
 Se compara CYP3A5_plot_prop_star_allele con CYP3A5_frequency_table y cuadra perfecto 
 ### CYP2C9
 Se comparan CYP2C9_plot_prop_star_allele con CYP2C9_frequency_table y cuadra perfecto 
 ### CYP2B6
 Se comparan CYP2B6_plot_prop_star_allele con CYP2B6_frequency_table, cuadra más o menos excepto el *5 que no esta en nuestros datos y es frecuente en la población 
-
+### CYP1A2
+No hay tabla referencia. CYP1A2_Allele_def_2.rda se pasa a CYP1A2_Allele_def_rs_star_allele, que se filtra por los *alelos que hay en CYP1A2_plot_prop_star_allele y se mira la frecuencia de los rs que los definen. Y cuadran bastante bien con las frecuencias poblacionales 
+### CYP3A4
+No hay tabla referencia. CYP3A4_Allele_def.rda se pasa a CYP3A4_Allele_def_rs_star_allele, que se filtra por los *alelos que hay en CYP3A4_plot_prop_star_allele y se mira la frecuencia de los rs que los definen. Y cuadran bastante bien con las frecuencias poblacionales 
+### CYP2C19
+No se sacaron bien los diplotipos de este CYP, mirar con CNVs 
 ### Resultados
-
-
+Las frecuencias de los allele star que nos han salido se corresponden con lo esperado en la poblacion bastante bien  
 
 
 ## 16/04/26
-### Objetivo
+### Objetivo 
+-CNVs nuevo 
+-Reunion Claudio 
+-Mirar los rs raros rojos ver si los tenemos por posicion 
+### CNVs en CNV_gene_overlap_database_nuevo (SON PERSONAS)
+Hat 637 en total en filtradas 
+-CYP1A2: 2 duplicaciones 
+-CYP3A4: 99 duplicaciones 
+-CYP3A5: 78 duplicaciones 
+-CYP2C19: 89 duplicaciones y 2 deleciones
+-CYP2C9: 78 duplicaciones
+-CYP2B6: 252 duplicacion y 1 delecion 
+-CYP2D6: 34 duplicaciones y 2 deleciones 
+### Ver por posicion si tenemos los rs raros 
+1. Comparar CYP_Allele_def.rda (la que usa genostar) con CYP_allele_definition_table (ClinPGX) y ver la posicion de los X (rojos) de CYP_Allele_def_rs_excluidos
+2. Buscar por posición si nosotros tenemos ese rs en 660indivCYPS_SNPs_SNVs_05_03_26.bim
+#### CYP1A2 
+Hay 1 rojo en CYP_Allele_def_rs_excluidos, Se compara CYP1A2_Allele_def_2.rda con CYP1A2_Haplotypes-PS216394-1454147960 y se ve que la que estaba en rojo correponde al rs2505559894, que no esta en nuestros datos, por lo que se mira su frecuencia y se pone en azul  
+#### CYP3A4
+Hay 4 rojo en CYP_Allele_def_rs_excluidos, Se compara CYP3A4_Allele_def.rda con CYP3A4_allele_definition_table-PS216409-1454596980 y se ve que dos en rojo correponden a rs que no estan en nuestros datos, por lo que se mira su frecuencia y se pone en azul, luego hay dos que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo 
+#### CYP3A5
+Se compara CYP3A5_Allele_def.rda con CYP3A5_allele_definition_table y se ve que todo bien, que no hay cosas raras 
+#### CYP2C9
+Hay varias rojo en CYP2C9_Allele_def_rs_excluidos, Se compara CYP2C9_Allele_def.rda con CYP2C9_allele_definition_table y se ve que varias en rojo correponden a rs que no estan en nuestros datos, por lo que se mira su frecuencia y se pone en azul, luego hay otra que se saca por posicion pero no la tenemos y tambien se pone en azul, luego hay otras que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo
+#### CYP2B6
+Hay varias rojo en CYP2B6_Allele_def_rs_excluidos, Se compara CYP2B6_Allele_def.rda con CYP2B6_allele_definition_table y se ve que una en rojo correponde a rs que no estan en nuestros datos, por lo que se mira su frecuencia pero no sale y se pone en morado, luego hay otras que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo
+### Resultados
+Hay muchos individuos con CNVs en CYP2D6, CYP2C19 y CYP2C9, hay que mirar si afecta en genostar o no 
+
+
+
+## 17/04/26
+### Objetivo 
 -Apuntar dudas genostar 
 -Leer información Genostar del github (las funciones de man y en R el genotype_conversion y en data el allele_definitions_snapshot_2025-08-13) 
--Reunion Claudio 
-### Resultados
-
-
-
 
 ## La semana siguiente: CNVs y CYP2D6 y CYP2C19
 
