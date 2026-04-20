@@ -538,15 +538,17 @@ Hat 637 en total en filtradas
 1. Comparar CYP_Allele_def.rda (la que usa genostar) con CYP_allele_definition_table (ClinPGX) y ver la posicion de los X (rojos) de CYP_Allele_def_rs_excluidos
 2. Buscar por posición si nosotros tenemos ese rs en 660indivCYPS_SNPs_SNVs_05_03_26.bim
 #### CYP1A2 
-Hay 1 rojo en CYP_Allele_def_rs_excluidos, Se compara CYP1A2_Allele_def_2.rda con CYP1A2_Haplotypes-PS216394-1454147960 y se ve que la que estaba en rojo correponde al rs2505559894, que no esta en nuestros datos, por lo que se mira su frecuencia y se pone en azul  
-#### CYP3A4
-Hay 4 rojo en CYP_Allele_def_rs_excluidos, Se compara CYP3A4_Allele_def.rda con CYP3A4_allele_definition_table-PS216409-1454596980 y se ve que dos en rojo correponden a rs que no estan en nuestros datos, por lo que se mira su frecuencia y se pone en azul, luego hay dos que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo 
+Hay 1 rojo en CYP_Allele_def_rs_excluidos, Se compara CYP1A2_Allele_def_2.rda con CYP1A2_Haplotypes-PS216394-1454147960 y se ve que la que estaba en rojo correponde al rs2505559894, que no esta en nuestros datos, por lo que se mira su frecuencia y se pone en azul. Frecuencias completas   
 #### CYP3A5
-Se compara CYP3A5_Allele_def.rda con CYP3A5_allele_definition_table y se ve que todo bien, que no hay cosas raras 
+Se compara CYP3A5_Allele_def.rda con CYP3A5_allele_definition_table y se ve que todo bien, que no hay cosas raras. Frecuencias completas 
 #### CYP2C9
-Hay varias rojo en CYP2C9_Allele_def_rs_excluidos, Se compara CYP2C9_Allele_def.rda con CYP2C9_allele_definition_table y se ve que varias en rojo correponden a rs que no estan en nuestros datos, por lo que se mira su frecuencia y se pone en azul, luego hay otra que se saca por posicion pero no la tenemos y tambien se pone en azul, luego hay otras que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo
+Hay varias rojo en CYP2C9_Allele_def_rs_excluidos, Se compara CYP2C9_Allele_def.rda con CYP2C9_allele_definition_table y se ve que varias en rojo correponden a rs que no estan en nuestros datos, por lo que se mira su frecuencia y se pone en azul, luego hay otra que se saca por posicion pero no la tenemos y tambien se pone en azul, luego hay otras que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo, pero estan en ClinPGX asi que se pone la frecuencia del *alelo. Frecuencias completas 
+#### CYP2C19
+Hay varias rojo en CYP2C19_Allele_def_rs_excluidos, Se compara CYP2C19_Allele_def.rda con CYP2C19_allele_definition_table y se ve que algunas en morado y rojo estan en ClinPGX asi que se pone la frecuencia del *alelo. Frecuencias completas 
 #### CYP2B6
-Hay varias rojo en CYP2B6_Allele_def_rs_excluidos, Se compara CYP2B6_Allele_def.rda con CYP2B6_allele_definition_table y se ve que una en rojo correponde a rs que no estan en nuestros datos, por lo que se mira su frecuencia pero no sale y se pone en morado, luego hay otras que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo
+Hay varias rojo en CYP2B6_Allele_def_rs_excluidos, Se compara CYP2B6_Allele_def.rda con CYP2B6_allele_definition_table y se ve que una en rojo correponde a rs que no estan en nuestros datos, estan en ClinPGX asi que se pone la frecuencia del *alelo. Luego hay otra (X) que no tiene rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo. Nos queda un rs sin frecuencia (X)
+#### CYP3A4
+Hay 4 rojo en CYP_Allele_def_rs_excluidos, Se compara CYP3A4_Allele_def.rda con CYP3A4_allele_definition_table-PS216409-1454596980 y se ve que dos en rojo correponden a rs que no estan en nuestros datos, por lo que se mira su frecuencia y se pone en azul, luego hay dos que no tienen rs asociado y se mira por pisicion en nuestros datos y tampoco asi que se quedan en rojo. Algunas estan en ClinPGX asi que se pone la frecuencia del *alelo. Nos quedan 3 rs sin frecuencia (X.3, X.2 y rs1318364992)
 ### Resultados
 Hay muchos individuos con CNVs en CYP2D6, CYP2C19 y CYP2C9, hay que mirar si afecta en genostar o no 
 
@@ -554,8 +556,32 @@ Hay muchos individuos con CNVs en CYP2D6, CYP2C19 y CYP2C9, hay que mirar si afe
 
 ## 17/04/26
 ### Objetivo 
+Organizar un poco todo 
+### Resumen CYPs del error 
+-CYPA12: todas las frecuencias de los rs excluidos sacadas   
+-CYP2C9: todas las frecuencias de los rs excluidos sacadas  
+-CYP3A5: todas las frecuencias de los rs excluidos sacadas 
+-CYP3A4: hay tres rs de los excluidos que no se puede sacar su frecuencia 
+-CYP2B6: hay un rs de los excluidos que  no se puede sacar su frecuencia, tiene VARIANTES ESTRUCTURALES (X.2)
+-CYP2C19: todas las frecuencias de los rs excluidos sacadas, tiene VARIANTES ESTRUCTURALES (X) y cuidado que el * de ref es el 38 pero genostar lo cambia 
+-CYP2D6: mirar los CNVs 
+### Resulatdos 
+Mirar las variantes estructurales 
+
+## 20/04/26
+### Objetivo 
+-Jugar con genostar para que me saque lo máximo posible en una sola función 
+#### script_juntar_dfs_CYPS: genera MATRIZ_FINAL_TODOS_LOS_GENES_GenoStaR
+Coge todas las tablas de referencia que usa genostar para cada CYP y matrix_geno_fixed_corregido y saca los rs comunes en nuestros datos y genostar para cada CYP y los junta todos con el formato correcto para genostar 
+#### script_prueba_funciones_genostar y script_todo_genostar: saca los diplotipos, haplotipos, metabolizadores y pie charts 
+
+
+
+## 21/04/26
+### Objetivo 
+-Analizar el CYP2C19 lo del alelo de referencia 
+-Tracks pintados de las CNVs  
 -Apuntar dudas genostar 
 -Leer información Genostar del github (las funciones de man y en R el genotype_conversion y en data el allele_definitions_snapshot_2025-08-13) 
-
-## La semana siguiente: CNVs y CYP2D6 y CYP2C19
+## La semana siguiente: CNVs y CYP2D6 y CYP2C19 y CYP2B6 
 
