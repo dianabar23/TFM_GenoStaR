@@ -8,7 +8,7 @@ library(writexl)
 # 1. CONFIGURACIÓN
 #--------------------------------------------------
 
-base_dir <- "X:/Fobos/Proyecto_Diana/TFM_GenoStaR"
+base_dir <- "/Users/dianabarraso/Desktop/TFM_GenoStaR"
 
 genes_config <- list(
   
@@ -59,7 +59,7 @@ genes_config <- list(
 # 2. CARGAR GENOTIPOS
 #--------------------------------------------------
 
-ruta_genotipos <- file.path(base_dir, "matrix_geno_fixed_corregido.RData")
+ruta_genotipos <- file.path(base_dir, "matrix_geno_fixed_espacios.RData")
 
 if (!file.exists(ruta_genotipos)) {
   stop(paste("❌ No se encuentra:", ruta_genotipos))

@@ -3,7 +3,7 @@ library(tidyverse)
 library(dplyr)
 
 # Working directory 
-setwd("C:/Users/CBM/Desktop/TFM_GenoStaR/")
+setwd("/Users/dianabarraso/Desktop/TFM_GenoStaR/Pre_genostar/bfiles")
 
 #Los bfile se transforman con plink a PED y MAP
 # Leer archivos ped y map (el normal y el adapatado)
@@ -39,6 +39,42 @@ colnames(matrix_geno) <- map_formato$SNP
 #Añadir el labID 
 ID <- ped[,2] # Crear la columna solo con el ID del paciente (corresponde a la segunda columna del ped file)
 matrix_geno_final <- cbind(LabID = ID, matrix_geno)
+
+
+
+# Cuando haya missing genotype que NO ponga nada 
+matrix_geno_fixed <- as.data.frame(matrix_geno_final, stringsAsFactors = FALSE)
+cols <- colnames(matrix_geno_fixed) != "LabID"
+
+matrix_geno_fixed[, cols] <- lapply(matrix_geno_fixed[, cols], function(col) {
+  col <- as.character(col)
+  
+  # 1. Quitar espacios previos para normalizar
+  col_trim <- gsub(" ", "", col)
+  
+  # 2. Identificar genotipos de 2 caracteres (ej: "AG", "00", "A0")
+  mask <- nchar(col_trim) == 2
+  
+  # 3. En esos casos, sustituimos el "0" por un espacio " "
+  # Esto convertirá "00" en "  " (dos espacios) y "A0" en "A "
+  col_trim[mask] <- gsub("0", " ", col_trim[mask])
+  
+  # 4. Convertir los que quedaron como doble espacio "  " en un solo espacio " "
+  # IMPORTANTE: Asegúrate de que dentro de las comillas haya dos espacios y uno solo respectivamente.
+  col_trim[col_trim == "  "] <- " "
+  
+  return(col_trim)
+})
+
+
+
+#Guararlo como RData
+save(matrix_geno_fixed, file = "matrix_geno_fixed_espacios.RData")
+
+
+
+
+
 
 # Cuando haya missing genotype que ponga una raya
 matrix_geno_fixed <- as.data.frame(matrix_geno_final, stringsAsFactors = FALSE)
