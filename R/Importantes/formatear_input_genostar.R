@@ -96,7 +96,7 @@ matrix_geno_fixed[, cols] <- lapply(matrix_geno_fixed[, cols], function(col) {
 })
 
 #Guararlo como RData
-save(matrix_geno_fixed, file = "matrix_geno_fixed_corregido.RData")
+save(matrix_geno_fixed, file = "matrix_geno_fixed_guiones.RData")
 
 
 

@@ -571,17 +571,58 @@ Mirar las variantes estructurales
 ## 20/04/26
 ### Objetivo 
 -Jugar con genostar para que me saque lo máximo posible en una sola función 
-#### script_juntar_dfs_CYPS: genera MATRIZ_FINAL_TODOS_LOS_GENES_GenoStaR
-Coge todas las tablas de referencia que usa genostar para cada CYP y matrix_geno_fixed_corregido y saca los rs comunes en nuestros datos y genostar para cada CYP y los junta todos con el formato correcto para genostar 
+#### script_juntar_dfs_CYPS: genera matriz_final_sin_CNVs_CYP2D6
+Coge todas las tablas de referencia que usa genostar para cada CYP y matrix_geno_fixed_espacios y saca los rs comunes en nuestros datos y genostar para cada CYP y los junta todos con el formato correcto para genostar 
 #### script_prueba_funciones_genostar y script_todo_genostar: saca los diplotipos, haplotipos, metabolizadores y pie charts 
 
 
 
 ## 21/04/26
 ### Objetivo 
--Analizar el CYP2C19 lo del alelo de referencia 
--Tracks pintados de las CNVs  
 -Apuntar dudas genostar 
 -Leer información Genostar del github (las funciones de man y en R el genotype_conversion y en data el allele_definitions_snapshot_2025-08-13) 
-## La semana siguiente: CNVs y CYP2D6 y CYP2C19 y CYP2B6 
+### Resultados 
+-Se hace una jerarquía de las funciones y se hace un resumen general de cada una (en el word Funciones_genostar)
+-Apuntar dudas en el cuaderno 
 
+
+## 22/04/26
+### Objetivo 
+-Gestionar las CNVs de CYP2D6
+-Probar genostar con la matriz 
+### CNVs de CYP2D6
+Se hacen a mano con el custom track de UCSC (CYP2D6_CNVs), se hace para CNVX9 (exon 9), CNVInt6 (intron 6) y CNV5UTR (zona 5UTR) y solo nos salen 3 individuos con CNVs de los 660 totales: 
+-HSP_0041.CEL: duplicacion en CNVX9 (exon 9), CNVInt6 (intron 6) y CNV5UTR (zona 5UTR)
+-PNT_0196.CEL: duplicacion en CNVX9 (exon 9), CNVInt6 (intron 6) y CNV5UTR (zona 5UTR)
+-UAM_0343.CEL: delecion en CNVX9 (exon 9) y CNVInt6 (intron 6), normal en CNV5UTR (zona 5UTR)
+### Juntar CYP2D6_CNVs con matriz_final_sin_CNVs_CYP2D6
+En el script script_juntar_dfs_CYPS 
+### Resultados 
+-Se deja la matriz MATRIZ_FINAL_COMPLETA ya hecha con todos los CYPs y la CNVs de CYP2D6 incluida
+-Se prueba genostar con la matriz pero salen errores
+1. Al correr CYP2D6 entero -> se prueba a quitar 
+lista_diplotipos <- all_geno_pheno(df, c("CYP3A5","CYP1A2","CYP3A4","CYP2C9","CYP2B6","CYP2C19","CYP2D6"), phased = FALSE, CYP1A2_name = "new")
+Error in rs1065852 == "AA" | "A A" : solo son posibles operaciones para variables de tipo numérico, compleja o lógico
+SE PRUEBA A QUITAR ESE RS  
+2. Al correr all_geno_pheno 
+lista_diplotipos <- all_geno_pheno(df_sin_rs, c("CYP3A5","CYP1A2","CYP3A4","CYP2C9","CYP2B6","CYP2C19","CYP2D6"), phased = FALSE, CYP1A2_name = "new")
+Error del split
+SE HACE ASSIGN_DIPLOTYPE
+3. Correr assign_diplotype
+lista_diplotipos <- assign_diplotype(df_sin_rs, c("CYP3A5","CYP1A2","CYP3A4","CYP2C9","CYP2B6","CYP2C19","CYP2D6"), phased = FALSE, CYP1A2_name = "new")
+SALE BIEN, PERO PARA CYP2C19 Y CYP2D6 MUCHOS NA 
+
+
+## 23/04/26
+### Objetivo
+-Sacar cosas con genostar  
+-Analizar el CYP2C19 lo del alelo de referencia 
+-Error de CYP2D6 
+-Mirar los problemas del día anterior 
+### Sacar cosas con genostar 
+En script_genostar
+### Error CYP2D6 
+En CYP2D6_Allele_def_rs_excluidos 
+### Resultados 
+
+Se hace el error de CYP2D6 y se mete en TABLA_RESUMEN_CYPS

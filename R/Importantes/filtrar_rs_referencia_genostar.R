@@ -7,7 +7,7 @@ setwd("X:/Fobos/Proyecto_Diana/TFM_GenoStaR")
 load("CYP1A2_Allele_def_2.rda")
 
 #2. Cargar el csv con todos los individuos 
-load("matrix_geno_fixed_corregido.RData")
+load("matrix_geno_fixed_espacios.RData")
 genotypes <- matrix_geno_fixed
 
 df_CYP1A2 <- genotypes %>% 

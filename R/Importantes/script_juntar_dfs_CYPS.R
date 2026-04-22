@@ -146,8 +146,33 @@ df_final <- Reduce(function(x, y) {
 
 write_xlsx(
   df_final,
-  file.path(base_dir, "MATRIZ_FINAL_TODOS_LOS_GENES_GenoStaR.xlsx")
+  file.path(base_dir, "matriz_final_sin_CNVs_CYP2D6.xlsx")
 )
 
 cat("\n✔ PROCESO COMPLETO TERMINADO\n")
-cat("✔ Matriz final guardada como: MATRIZ_FINAL_TODOS_LOS_GENES_GenoStaR.xlsx\n")
+
+
+
+### Juntar con las CNVs de CYP2D6 
+
+ruta <- "X:/Fobos/Proyecto_Diana/TFM_GenoStaR"
+
+# Leer archivos
+matriz_grande <- read_excel(paste0(ruta, "/matriz_final_sin_CNVs_CYP2D6.xlsx"))
+cyp2d6 <- read_excel(paste0(ruta, "/CYP2D6/CYP2D6_CNVs"))
+
+
+# Cargar librerías
+library(readxl)
+library(dplyr)
+library(writexl)
+
+
+# Unir por la primera columna (sin cambiar nada)
+resultado <- left_join(matriz_grande, cyp2d6, by = names(matriz_grande)[1])
+
+
+# Guardar en Excel en ESA RUTA
+write_xlsx(resultado, file.path(ruta, "MATRIZ_FINAL_COMPLETA.xlsx"))
+
+
