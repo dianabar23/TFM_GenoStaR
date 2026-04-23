@@ -600,7 +600,7 @@ En el script script_juntar_dfs_CYPS
 ### Resultados 
 -Se deja la matriz MATRIZ_FINAL_COMPLETA ya hecha con todos los CYPs y la CNVs de CYP2D6 incluida
 -Se prueba genostar con la matriz pero salen errores
-1. Al correr CYP2D6 entero -> se prueba a quitar 
+1. Al correr CYP2D6 entero 
 lista_diplotipos <- all_geno_pheno(df, c("CYP3A5","CYP1A2","CYP3A4","CYP2C9","CYP2B6","CYP2C19","CYP2D6"), phased = FALSE, CYP1A2_name = "new")
 Error in rs1065852 == "AA" | "A A" : solo son posibles operaciones para variables de tipo numérico, compleja o lógico
 SE PRUEBA A QUITAR ESE RS  
@@ -615,14 +615,31 @@ SALE BIEN, PERO PARA CYP2C19 Y CYP2D6 MUCHOS NA
 
 ## 23/04/26
 ### Objetivo
--Sacar cosas con genostar  
--Analizar el CYP2C19 lo del alelo de referencia 
--Error de CYP2D6 
+-Reunión Claudio 
+-Sacar cosas con genostar
+-Corregir los errores de los CYPS   
 -Mirar los problemas del día anterior 
 ### Sacar cosas con genostar 
-En script_genostar
-### Error CYP2D6 
-En CYP2D6_Allele_def_rs_excluidos 
+En script_genostar  
+### Corregir los errores de los CYPS 
+En CYP_Allele_def_rs_excluidos, las frecuencias que se han sacado por *alelo hay que verificar que no haya mas rs que dan a ese *alelo o que la frecuencia del rs coindica con la frecuencia del *alelo. Se cambian estas tablas y los errores 
+### Mirar los problemas del día anterior
+Se ponen las funciones de genostar en funciones_genostar_diana y se cambian 
+-adjust_diplotype: se cambia rs1065852 == "AA" | "A A" porque esta mal 
 ### Resultados 
+Se actualizan los errores 
 
+
+
+
+## 24/04/26
+### Objetivo
+-Actualizar erroes TABLA_RESUMEN y actualizar error CYP2B6 
+-Error de CYP2D6 
+-Hacer script de la grafica final de frecuencias (ClinPGX vs nuestros resultados)   
+### Sacar cosas con genostar 
+En script_genostar
+### Error CYP2D6  
+En CYP2D6_Allele_def_rs_excluidos   
+### Resultados 
 Se hace el error de CYP2D6 y se mete en TABLA_RESUMEN_CYPS
