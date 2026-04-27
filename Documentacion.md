@@ -632,14 +632,16 @@ Se actualizan los errores
 
 
 
-## 24/04/26
+## 27/04/26
 ### Objetivo
 -Actualizar erroes TABLA_RESUMEN y actualizar error CYP2B6 
 -Error de CYP2D6 
--Hacer script de la grafica final de frecuencias (ClinPGX vs nuestros resultados)   
 ### Sacar cosas con genostar 
 En script_genostar
 ### Error CYP2D6  
-En CYP2D6_Allele_def_rs_excluidos   
+En CYP2D6_Allele_def_rs_excluidos. Hay rs problematicos anotados en el cuaderno   
 ### Resultados 
 Se hace el error de CYP2D6 y se mete en TABLA_RESUMEN_CYPS
+
+
+-Hacer script de la grafica final de frecuencias (ClinPGX vs nuestros resultados)   
