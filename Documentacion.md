@@ -634,14 +634,31 @@ Se actualizan los errores
 
 ## 27/04/26
 ### Objetivo
--Actualizar erroes TABLA_RESUMEN y actualizar error CYP2B6 
+-Actualizar errores TABLA_RESUMEN y actualizar error CYP2B6 
 -Error de CYP2D6 
 ### Sacar cosas con genostar 
-En script_genostar
+En script_genostar se saca todo con all_geno_pheno y se gurada todo el resultado en salida_genostar y el resultado filtrado con solo las columnas que interesan en salida_genostar_filtrado
 ### Error CYP2D6  
 En CYP2D6_Allele_def_rs_excluidos. Hay rs problematicos anotados en el cuaderno   
 ### Resultados 
 Se hace el error de CYP2D6 y se mete en TABLA_RESUMEN_CYPS
 
 
--Hacer script de la grafica final de frecuencias (ClinPGX vs nuestros resultados)   
+## 11/05/26
+### Objetivo 
+Hacer script de la grafica final de frecuencias (ClinPGX vs nuestros resultados)  
+### Datos poblacionales: Excel frecuencias_poblacionales_metabolizadores_clinpgx.xlsx
+Se hace un excel para CYP2C9, CYP2C19, CYP3A5, CYP2B6 y CYP2D6 con las frecuencias poblacionales de clinpgx (se saca de la pharmacogene table CYP_frequency_table.xlsx de la hoja Phenotype Frequency, para las que tienen activity score (CYP2C9 y CYP2D6) se usa CYP_Diplotype_Phenotype_Table para pasar de activity score a metabolizador)
+### Nuestros datos: Excel salida_genostar_filtrado
+Es la salida de script_genostar 
+### Script_grafica_final_metabolizadores  
+Se le mete las frecuencias de clinpgx (frecuencias_poblacionales_metabolizadores_clinpgx.xlsx) y nuestra salida de genostar (salida_genostar_filtrado) y te saca el plot resumen de frecuencias de metabolizadores (plot_final_metabolizadores) 
+### Resultados
+La mayoria cuadra, hay que revisar que los porcentajes esten bien y ver que pasa con CYP2C19 y CYP2D6 
+
+-Revisar plot_final_metabolizadores
+-Hacer plot_final_diplotipo
+-Hacer plot_final_activity
+-Revisar errores
+-Analizar CNVs 
+  
