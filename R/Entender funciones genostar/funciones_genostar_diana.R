@@ -899,6 +899,7 @@ find_diplotype_diana <- function(df, genes, CYP1A2_name){
     # Filter the input dataframe columns to include only those relevant to the current gene
     gene_snps <- grep(paste0("^", gene, "_"), colnames(df), value = TRUE)
     
+    
     # Extract the rs part from the input column names
     snps_clean <- gsub(".*_X?(rs[0-9]+|X[0-9A-Z]+)", "\\1", gene_snps)
     
@@ -1526,6 +1527,23 @@ filter_no_match_diana <- function(df, gene) {
   
   #Filter the dataframe where the diplotype column has no star allele match
   filtered_df <- df[df[[diplotype_col]] == "No matching star alleles found", ]
+  
+  return(filtered_df)
+}
+
+# SE MODIFICA PARA QUE INCLUYA LOS NA TAMBIEN (TANTO CON LETRAS COMO NA REALES)
+filter_no_match_diana <- function(df, gene) {
+  gene <- toupper(gene)
+  
+  # Create the column name dynamically based on the gene name
+  diplotype_col <- paste0(gene, "_diplotype")
+  
+  # Filter rows with NA or "No matching star alleles found" or "NA"
+  filtered_df <- df[
+    is.na(df[[diplotype_col]]) |
+      df[[diplotype_col]] == "NA" |
+      df[[diplotype_col]] == "No matching star alleles found",
+  ]
   
   return(filtered_df)
 }

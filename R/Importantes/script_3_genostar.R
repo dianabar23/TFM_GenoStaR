@@ -138,6 +138,53 @@ for (gen in genes) {
 
 
 
+### FUNCION: FILTER_NO_MATCH
+# Va de gen en gen por eso hay que hacer bucle 
+genes <- c("CYP3A5","CYP1A2","CYP3A4","CYP2C9","CYP2B6","CYP2C19","CYP2D6")
+
+for (gene in genes) {
+  
+  # Filtrar datos
+  df_gene <- filter_no_match_diana(df_final, gene)
+  
+  # Crear carpeta específica del CYP
+  carpeta_gene <- file.path(ruta, "CYPs", gene)
+  
+  # (opcional pero recomendable) crear carpeta si no existe
+  if (!dir.exists(carpeta_gene)) {
+    dir.create(carpeta_gene, recursive = TRUE)
+  }
+  
+  # Crear nombre del archivo
+  archivo_salida <- file.path(
+    carpeta_gene,
+    paste0(gene, "_individuos_NA.xlsx")
+  )
+  
+  # Guardar Excel
+  write_xlsx(df_gene, path = archivo_salida)
+}
+
+
+genes <-c("CYP3A5","CYP1A2","CYP3A4","CYP2C9","CYP2B6","CYP2C19","CYP2D6")
+
+
+CYP1A2_df_NA_genostar <- filter_no_match_diana(df_final, "CYP1A2")
+write_xlsx(
+  CYP1A2_df_NA_genostar,
+  path = file.path(ruta, " CYP1A2_individuos_NA.xlsx")
+)
+CYP3A4_df_NA_genostar <- filter_no_match_diana(df_final, "CYP3A4")
+write_xlsx(
+  CYP3A4_df_NA_genostar,
+  path = file.path(ruta, " CYP3A4_individuos_NA.xlsx")
+)
+CYP3A5_df_NA_genostar <- filter_no_match_diana(df_final, "CYP3A5")
+CYP2C9_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2C9")
+CYP2C19_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2C19")
+CYP2B6_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2B6")
+CYP2D6_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2D6")
+
 
 #### AUNQUE LA FUNCION GENERAL FUNCIONA SE VAN PROBANDO LAS OTRAS FUNCIONES UNA A UNA 
 

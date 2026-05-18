@@ -652,13 +652,65 @@ Se hace un excel para CYP2C9, CYP2C19, CYP3A5, CYP2B6 y CYP2D6 con las frecuenci
 ### Nuestros datos: Excel salida_genostar_filtrado
 Es la salida de script_genostar 
 ### Script_grafica_final_metabolizadores  
-Se le mete las frecuencias de clinpgx (frecuencias_poblacionales_metabolizadores_clinpgx.xlsx) y nuestra salida de genostar (salida_genostar_filtrado) y te saca el plot resumen de frecuencias de metabolizadores (plot_final_metabolizadores) 
+Se le mete 
+-Las frecuencias de clinpgx (frecuencias_poblacionales_metabolizadores_clinpgx.xlsx) 
+-Nuestra salida de genostar (salida_genostar_filtrado) 
+Y te saca el plot resumen de frecuencias de metabolizadores (plot_final_metabolizadores) 
 ### Resultados
 La mayoria cuadra, hay que revisar que los porcentajes esten bien y ver que pasa con CYP2C19 y CYP2D6 
 
+
+### 12/05/26
+### Objetivo
 -Revisar plot_final_metabolizadores
--Hacer plot_final_diplotipo
--Hacer plot_final_activity
--Revisar errores
+-Hacer plot_final_allele_star
+### Script_grafica_final_star_alleles  
+Se le mete:
+-Las frecuencias de clinpgx para CYP3A5, CYP2B6, CYP2C19 CYP2C9 y CYP2D6 (se saca de la pharmacogene table CYP_frequency_table.xlsx de la hoja Allele Frequency, se hace la columna European100 para expresar la frecuencia en porcentaje), mietras que para CYP1A2 y CYP3A4 no hay frecuencias en clinpgx se usan las frecuencias de los rs de esos allele star que se sacan de CYP1A2_Allele_def_rs_star_allele y CYP3A4_Allele_def_rs_star_allele y se ponen en frecuencias_poblacionales_allele_star_CYP1A2_CYP3A4_clinpgx
+-Nuestra salida de genostar (salida_genostar_filtrado) 
+Y te saca el plot resumen de frecuencias de allele star (plot_final_allele_star)  
+### Resultados 
+-El plot_final_metabolizadores esta bien, solo falta ver porque para CYP2C19 y CYP2D6 hay muchos NA 
+-Se hace el plot_final_allele_star y esta bien 
+
+
+### 13/05/26
+### Objetivo
+-Hacer plot_final_activity 
+-Actualizar tabla TABLA_RESUMEN_CYPS
+### Script_grafica_final_activity  
+Se le mete 
+-Las frecuencias de clinpgx para CYP2C9 y CYP2D6 (frecuencias_poblacionales_activity_clinpgx.xlsx: excel para CYP2C9 y CYP2D6 con las frecuencias poblacionales de clinpgx (se saca de la pharmacogene table CYP_frequency_table.xlsx de la hoja Phenotype Frequency))  
+-Nuestra salida de genostar (salida_genostar_filtrado) 
+Y te saca el plot resumen de frecuencias de activity (plot_final_activity) 
+### Actualizar tabla TABLA_RESUMEN_CYPS con el CALL RATE 
+Se calcula el call rate (porcentaje de individuos para los que no se consigue sacar diplotipo) de cada CYP con el script_call_rate 
+### Resultados 
+-Se hace el plot_final_activity_score y esta bien 
+-Se actualiza TABLA_RESUMEN_CYPS con el call rate de cada CYP 
+
+
+
+
+### 14/05/26
+### Objetivo
+-Analizar funciones en busca de la razon del bajo call rate para CYP2C19 y CYP2D6 
+### Mejora en la funcion filter_no_match 
+Se le añade para aparte de "No matching star alleles found" tambien funcione si hay NA (reales o "NA") y se sacan los excels con los individuos a los que no se les ha encontrado diplotipo CYP_individuos_NA
+### Modificar las tablas de individuos NA tras genostar CYP_individuos_NA
+-En la hoja salida genostar: se deja tal cual sale (con todas las columnas)
+-En la hoja filtrada: se filtra para los rs y columnas de ese CYP 
+### Buscar la razon por la que salen los NA 
+Se deja en el cuaderno marcado pero en resumen en CYP_individuos_NA 
+-Blanco: NA a los que le falta al menos un genotipo 
+-Naranja: NA pero que tienen todos los genotipos 
+### Resultados 
+-Se hacen mejoras de las fucniones (en el cuaderno en la parte de mejoras de las funciones genostar)
+-Para CYP3A4 y CYP2C9 los NA que salen se deben a que les falta algun dato de genotipado par al menos un rs 
+-Para CYP2B6 la mayoria de los NA es porque no tienen algun dato de genotipado, excepto 2 que no se sabe de donde viene porque tienen todos los genotipos 
+-Para CYP2D6 y CYP2C19 pocos son NA por falta de algun genotipo pero la mayoria (433 para CYP2C19 y 311 para CYP2D6) no se sabe de donde viene porque tienen todos los genotipos 
+
+ 
+-Abstract
+-Posiciones epi 
 -Analizar CNVs 
-  
