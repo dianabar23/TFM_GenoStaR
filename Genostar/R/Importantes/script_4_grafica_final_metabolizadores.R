@@ -8,7 +8,7 @@ library(tidyr)
 library(ggplot2)
 library(stringr)
 
-setwd("Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR")
+setwd("Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Genostar")
 
 clinpgx <- read_excel("frecuencias_poblacionales_metabolizadores_clinpgx.xlsx")
 geno <- read_excel("salida_genostar_filtrado.xlsx")
@@ -182,16 +182,10 @@ p <- ggplot(all_data, aes(x = x_pos, y = freq, fill = status_clean, group = stat
 # =========================================================
 
 ggsave(
-  "plot_final_metabolizadores.png",
+  "plot_final_metabolizadores_2.png",
   plot = p,
   width = 14,
   height = 8,
   dpi = 600
 )
 
-ggsave(
-  "plot_final_metabolizadores.pdf",
-  plot = p,
-  width = 14,
-  height = 8
-)

@@ -5,12 +5,21 @@ library(writexl)
 
 
 #ruta <- "/Users/dianabarraso/Desktop/TFM_GenoStaR"
-ruta <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR"
+ruta <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Genostar"
 
 # Leer archivos
-df <- read_excel(file.path(ruta, "MATRIZ_FINAL_COMPLETA.xlsx"))
+df <- read_excel(file.path(ruta, "MATRIZ_FINAL_COMPLETA_CYP2C19.xlsx"))
 df <- as.data.frame(df)
 
+
+### FUNCION: FIND MISSING DATA 
+datos_faltantes <- find_missing_data_diana_pre(df)
+# Guardarlo
+write.csv(
+  data.frame(Missing = unlist(datos_faltantes)),
+  file.path(ruta, "datos_faltantes.csv"),
+  row.names = FALSE
+)
 
 ### FUNCION: ALL GENO PHENO 
 df_todo <- all_geno_pheno_diana(df, c(
@@ -117,7 +126,7 @@ for (gen in genes) {
   
   # --- A partir de aquí ya es seguro ---
   
-  carpeta_gen <- paste0(ruta, "/", gen)
+  carpeta_gen <- paste0(ruta, "/CYPs/", gen)
   
   if (!dir.exists(carpeta_gen)) {
     dir.create(carpeta_gen, recursive = TRUE)
@@ -165,25 +174,6 @@ for (gene in genes) {
   write_xlsx(df_gene, path = archivo_salida)
 }
 
-
-genes <-c("CYP3A5","CYP1A2","CYP3A4","CYP2C9","CYP2B6","CYP2C19","CYP2D6")
-
-
-CYP1A2_df_NA_genostar <- filter_no_match_diana(df_final, "CYP1A2")
-write_xlsx(
-  CYP1A2_df_NA_genostar,
-  path = file.path(ruta, " CYP1A2_individuos_NA.xlsx")
-)
-CYP3A4_df_NA_genostar <- filter_no_match_diana(df_final, "CYP3A4")
-write_xlsx(
-  CYP3A4_df_NA_genostar,
-  path = file.path(ruta, " CYP3A4_individuos_NA.xlsx")
-)
-CYP3A5_df_NA_genostar <- filter_no_match_diana(df_final, "CYP3A5")
-CYP2C9_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2C9")
-CYP2C19_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2C19")
-CYP2B6_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2B6")
-CYP2D6_df_NA_genostar <- filter_no_match_diana(df_final, "CYP2D6")
 
 
 #### AUNQUE LA FUNCION GENERAL FUNCIONA SE VAN PROBANDO LAS OTRAS FUNCIONES UNA A UNA 

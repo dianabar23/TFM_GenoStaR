@@ -9,7 +9,7 @@ library(readxl)
 # PATH
 # =========================================================
 
-base_path <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR"
+base_path <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Genostar"
 
 geno <- read_excel(
   file.path(base_path, "salida_genostar_filtrado.xlsx")

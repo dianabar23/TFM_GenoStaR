@@ -10,7 +10,7 @@ library(readxl)
 library(forcats)
 library(tidytext)
 
-base_path <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR"
+base_path <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Genostar"
 
 cyp_genes <- c(
   "CYP1A2",

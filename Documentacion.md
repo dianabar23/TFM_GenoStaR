@@ -11,7 +11,7 @@ Se eliminan 62 porque no estan en la tabla de los 5374 (ascendencia no europea u
 Resultado: 660indv.txt (familia (columna 1), ID individuo (columna 2))
 
 #### 2. Sacar la info necesaria de los CYPs  
-cromosoma, start y end de UCSC Genome Browser (a start y end se le pone una ventana de 5000)
+cromosoma, start y end de UCSC Genome Browser (a start y end se le pone una VENTANA de 5000)
 
 Se hace una para el GRCh37/hg19 para las SNPs y se le llama CYPSconventana19SNP
 Se hace una para el GRCh38/hg38 para las SNVs y se le llama CYPSconventana38SNV
@@ -710,7 +710,71 @@ Se deja en el cuaderno marcado pero en resumen en CYP_individuos_NA
 -Para CYP2B6 la mayoria de los NA es porque no tienen algun dato de genotipado, excepto 2 que no se sabe de donde viene porque tienen todos los genotipos 
 -Para CYP2D6 y CYP2C19 pocos son NA por falta de algun genotipo pero la mayoria (433 para CYP2C19 y 311 para CYP2D6) no se sabe de donde viene porque tienen todos los genotipos 
 
- 
--Abstract
--Posiciones epi 
--Analizar CNVs 
+
+### 18/05/26
+### Objetivo
+-Hacer abstracts para CBM y Reus
+-Posiciones epi
+-Ver que individuos de epi coinciden con los 660 individuos 
+### Posiciones de los CYPs para epi 
+CYP, cromosoma, start y end de UCSC Genome Browser (a start y end se le pone una VENTANA de 100.000) en GRCh38/hg38, id del gen de https://ensembl.org/ 
+Resultado: CYPSconventana38epi se ponen las GRCh38/hg38 (se saca de la hoja hg38 ventana 100.000 (epi) de CYPStodo)
+### Individuos comunes Genostar y epi (individuos_EPIC)
+En genostar hay 660 individuos y en epi 238. Todos los de epi tienen genostar
+### Calcular call rate de genostar para los 238 individuos de epi
+#### 1. Filtrar salida genostar para los 238 individuos de epi (salida_genostar_filtrado_epi)
+Se coge salida_genostar_filtrado y se filtran los 238 individuos con info de epi 
+#### 2. Calular call rate de esos individuos (genostar_CALL_RATE_individuos_epi)
+Se usa el script script_CALL_RATE sobre el excel salida_genostar_filtrado_epi
+### Resultados 
+-Se suben los abstracts a marte 
+-Se le pasa a Ines las posiciones de los CYPs con ventana de 100000 (CYPSconventana38epi)
+-Los 238 individuos de epi se han corrido en genostar
+-Call rate de genostar para los 238 individuos de epi (genostar_CALL_RATE_individuos_epi)
+
+### 19/05/26
+### Objetivo
+-Analizar funciones en busca de la razon del bajo call rate para CYP2C19 y CYP2D6  
+### Mejoras en la funcion find_missing_data_pre 
+-Se le añade para aparte de " " tambien funcione si hay NA (reales o "NA") o celda vacia "" 
+-Se modofica para que acepte cualquier nombre como primera columna y no solo patient_index 
+Resultado: datos_faltantes
+CUIDADO: se hace otra fucnion find_missing_data_pre para aplicarla antes y poder sacar los valores faltantes, pero no se aplica en el pipeline de genostar porque da errores 
+### Solución del bajo call rate de CYP2C19 
+La MATRIZ_FINAL_COMPLETA se pasa a MATRIZ_FINAL_COMPLETA_CYP2C19 que es la que se usa, se modifica el 
+-CYP2C19_rs17882687: de CC a AA 
+-CYP2C19_rs113934938: de AA a GG
+### Se vuelven a correr los scripts para actualizar 
+### Resultados 
+-Se hacen mejoras de las fucniones (en el cuaderno en la parte de mejoras de las funciones genostar)
+
+
+
+### 19/05/26
+### Objetivo
+-Transcriptomica: sacar media y desviación por CYP y ver donde se expresa cada CYP 
+-Epi: anotar las CpG que han salido segun promotor o isla CpG 
+-Actualizar TFM 
+### Transcriptómica raw: CYP_gene_counts_238_individuos (son gene_counts)
+### Epi raw: CpGs_por_CYP_ventana100kb_con_betas (beta values)
+### Actualizar TFM 
+En la primer apágina del cuaderno poner lo que se hace para transcriptomica y epi 
+### Transcriptomica: media y desviacion  
+Los datos de transcriptómica raw son: 
+Con el script_CYP_media_ds se calcula la media y la desviacion tipica de cada CYP y se guarda en CYP_gene_counts_238_individuos en la hoja CYP_media_ds y sale que CYP2D6 y CYP3A5 tienen algunos counts
+### Transcriptomica: expresion de los CYPs 
+Se busca en The Human Protein Atlas en Tissue:RNA los CYPs y se ve que todos se expresan en el hígado y ninguno en sangre 
+-CYP2C19, CYP3A4, CYP2C9, CYP1A2 y CYP2B6: nada de expresión en blood 
+-CYP3A5: tiene un poco de expresión en blood vessel https://www.proteinatlas.org/ENSG00000106258-CYP3A5/tissue 
+-CYP2D6: NO tiene espresión en blood https://www.proteinatlas.org/ENSG00000100197-CYP2D6/tissue
+### Epi: anotación de las CpG  
+Se guarda en CpGs_por_CYP_ventana100kb_con_betas en sus ventanas correspondientes (se hacen las hojas cosas_CYP para resumir lo que se ve en la ventana)
+En la hoja resumen CpGs se apunta las CpGs por gen 
+### Resultados 
+-Transcriptómica: solo tienen expresión en sangre CYP2D6 y CYP3A5, al comprobar en el Atlas se ve que es que los CYPs se expresan en el hígado y no en sangre 
+-Epi: se deja anotado en CpGs_por_CYP_ventana100kb_con_betas
+
+
+
+-Escribir correo 
+

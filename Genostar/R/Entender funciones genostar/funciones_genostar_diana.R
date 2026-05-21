@@ -26,6 +26,36 @@ find_missing_data_diana <- function(df) {
   return(as.list(missing_messages))
 }
 
+# SE MODIFICA PARA QUE INCLUYA OTRAS OPCIONES Y PARA QUE ACEPTE CUALQUIER NOMBRE EN LA PRIMERA COLUMNA (Y NO SOLO PATIENT INDEX)
+find_missing_data_diana_pre <- function(df) {
+  
+  # usar la primera columna como identificador (sin modificar df)
+  patient_col <- colnames(df)[1]
+  
+  # check which positions contain empty values
+  missing_positions <- which(df == " " | is.na(df) | df == "" | df == "NA", arr.ind = TRUE)
+  
+  if (nrow(missing_positions) == 0) {
+    return("No Missing Genotypes")
+  }
+  
+  missing_messages <- apply(missing_positions, 1, function(pos) {
+    
+    row <- pos[1]
+    col <- pos[2]
+    
+    # usar la primera columna como ID de paciente de forma genérica
+    patient_index <- df[[patient_col]][row]
+    
+    col_name <- colnames(df)[col]
+    
+    paste("Missing Data: patient index", patient_index, ",", col_name)
+  })
+  
+  return(as.list(missing_messages))
+}
+
+
 #' @title Fill empty cells in dataframe
 #' @description This function iterates through a dataframe (allele definition table in this use case) and fills the empty cells with the genotypes from the first row (wildtype)
 #' @param df A data frame containing genotype data with specific columns. The column names should be snps, for example rs1065852.
