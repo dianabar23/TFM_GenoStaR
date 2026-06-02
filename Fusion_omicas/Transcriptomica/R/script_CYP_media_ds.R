@@ -6,7 +6,7 @@ library(stringr)
 
 setwd("Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Transcriptomica")
 
-gene_counts <- read_excel("CYP_gene_counts_238_individuos.xlsx")
+gene_counts <- read_excel("CYP_gene_counts_normalizadas_nombres_transcriptomica_238_individuos.xlsx")
 
 
 # =========================================================

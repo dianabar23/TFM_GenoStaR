@@ -750,7 +750,7 @@ La MATRIZ_FINAL_COMPLETA se pasa a MATRIZ_FINAL_COMPLETA_CYP2C19 que es la que s
 
 
 
-### 19/05/26
+### 20/05/26
 ### Objetivo
 -Transcriptomica: sacar media y desviación por CYP y ver donde se expresa cada CYP 
 -Epi: anotar las CpG que han salido segun promotor o isla CpG 
@@ -775,6 +775,167 @@ En la hoja resumen CpGs se apunta las CpGs por gen
 -Epi: se deja anotado en CpGs_por_CYP_ventana100kb_con_betas
 
 
+### 25/05/26
+### Objetivo
+Sacar los modelos para la relacion entre gene counts y metilacion 
+### 1.Transcriptomica: pasar los nombres de las muestras de gene counts a formato epi 
+Con el script_relacion_nombres y el excel relacion_nombres_muestras_epi_trancriptomica que tiene ambos formatos, se cambia el excel CYP_gene_counts_nombres_transcriptomica_238_individuos a los nombres de las muestras de epi CYP_gene_counts_nombres_epi_238_individuos
+### 2.Epi: calcular los M-values a partir de los B-values para cada CYP
+Con el script_transformar_Bvalues_a_Mvalues se pasan los Bvalues del excel CpGs_por_CYP_ventana100kb_con_betas a Mvalues (CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx)
+Se usa la formula M=log2(B/(1-B))
+### 3.Fusion: Aplicar modelos 
+Se adapta el script de Ines del pipeline de epigenomica (14_CaseControl_Analysis_Females_Males_limma_blood_prueba_sin_CtrlProbes3y4) a nuestro caso script modelos_epi_transcriptomica 
+### Resultados 
+-Se sacan cg significativas en algunos genes 
 
--Escribir correo 
+### 27/05/26
+### Objetivo
+Seguir con modelos_epi_transcriptomica
+-Ver como poner el nombre para ver que cg es en el modelo 
+-Correr el modelo simple para los demas CYPS 
+-Analizar las significativas
+-Ver si es necesario el eBayes o si serviaria solo el lmfit en nuestro caso
+-Ir metiendo covariables (ver si se pueden usar los lambda para ver que modelo es el mejor)
+### Modelo simple: Mvalues ~ gene_counts (para todos los CYPs)
+Se analizan las cg significativas, 
+1. Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y solo salen tres para CYP3A5 
+-Con LogFC positivo: cg02084114  (más expresión = más metilación)
+-Con LogFC negativo: cg12694063 y cg13596235 (más expresión = menos metilación)
+2. Se aplica el Bonferrroni (P-valor < 0.05/CpGs) y solo salen dos de los tres de antes de CYP3A5
+-Con LogFC positivo: cg02084114  (más expresión = más metilación)
+-Con LogFC negativo: cg12694063 (más expresión = menos metilación)
+### Modelo 1:  Mvalues ~ gene_counts + age + sex (para CYP2D6, CYP3A5  porque son las que tienen gene counts)
+Sale lo mismo que el modelo simple
+### Modelo 2:  Mvalues ~ gene_counts + age + sex + smoking (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+Sale lo mismo que el modelo simple
+### Modelo 3:  Mvalues ~ gene_counts + age + sex + smoking + caso/control (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+Se analizan las cg significativas, 
+1. Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y solo sale una para CYP3A5 
+-Con LogFC negativo: cg12694063 (más expresión = menos metilación)
+2. Se aplica el Bonferrroni (P-valor < 0.05/CpGs) y sigue saliendo el de antes de CYP3A5
+-Con LogFC negativo: cg12694063 (más expresión = menos metilación)
+### Modelo 4:  Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+No sale nada para ninguno de los genes 
+### Modelo completo:  Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+No sale nada para ninguno de los genes 
+### Resulatados
+Todo para CYP3A5 con Bonferroni
+-MS: Mvalues ~ gene_counts: cg02084114, cg12694063
+-M1: Mvalues ~ gene_counts + age + sex: cg02084114, cg12694063
+-M2: Mvalues ~ gene_counts + age + sex + smoking: cg02084114, cg12694063
+-M3: Mvalues ~ gene_counts + age + sex + smoking + caso/control: cg12694063
+-M4: Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: NADA 
+-MC: Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: NADA 
+De momento nos quedamos con el M2 (Mvalues ~ gene_counts + age + sex + smoking)
 
+
+### 28/05/26
+### Objetivo
+-Aplicar sobre CYP3A5 M5, M6 y M7 
+-Mirar que son las cg significativas de CYP3A5
+### Resultados 
+Todo para CYP3A5 con Bonferroni
+-MS: Mvalues ~ gene_counts: cg02084114, cg12694063
+-M1: Mvalues ~ gene_counts + age + sex: cg02084114, cg12694063
+-M2: Mvalues ~ gene_counts + age + sex + smoking: cg02084114, cg12694063
+-M3: Mvalues ~ gene_counts + age + sex + smoking + caso/control: cg12694063
+-M4: Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: NADA 
+-M5: Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2: NADA 
+-M6: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2: cg02084114, cg12694063
+-M7: Mvalues ~ gene_counts + age + sex + smoking + anc_1 + anc_2: cg02084114, cg12694063
+-M8: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg02084114, cg12694063
+-M9: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 + caso/control: cg12694063
+-M10: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 + cell_1: NADA 
+-MC: Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: NADA 
+De momento nos quedamos con el M6 (Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2) porque tienen variables biologicas y tecnicas, se quita cell porque nos elimina los cg significativos, caso/control porque no es lo que buscamos con nuestro estudio de los CYPs y ancestriaporque la poblacion es toda europea y no es el objetivo de nuestro estudio y hemos visto que no afecta, asi que nos quedamos con lo minimo neceario para que sea fiable y no haya sobreajuste  
+
+
+### 29/05/26
+### Objetivo
+-Hacer el modelo de nuevo sobre las gene_counts normalizadas  
+-Mirar que son las cg significativas de CYP3A5
+### Modelo simple: Mvalues ~ gene_counts (para todos los CYPs)
+Solo salen significativas por Bonferroni en 
+## Para CYP3A5
+Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y Bonferrroni (P-valor < 0.05/CpGs)
+-Con LogFC positivo: cg02084114  (más expresión = más metilación)
+-Con LogFC negativo: cg12694063, cg13596235, cg04706801 y cg05008948 (más expresión = menos metilación)
+## Para CYP3A4
+Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y Bonferrroni (P-valor < 0.05/CpGs)
+-Con LogFC positivo: cg11449766  (más expresión = más metilación)
+-Con LogFC negativo: cg09914773 (más expresión = menos metilación)
+## Para los demas CYPs no sale nada 
+### Modelos con covariables
+## Para CYP3A5 
+-MS: Mvalues ~ gene_counts: cg02084114, cg12694063, cg13596235, cg04706801 y cg05008948 (5cg)
+-M1: Mvalues ~ gene_counts + age + sex: cg02084114, cg12694063, cg13596235, cg04706801 y cg05008948 (5cg)
+-M2: Mvalues ~ gene_counts + age + sex + smoking: cg02084114, cg12694063, cg13596235 y cg04706801 (4cg)
+-M3: Mvalues ~ gene_counts + age + sex + smoking + caso/control: cg12694063 y cg13596235 (2cg)
+-M4: Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg12694063 (1cg)
+-M5: Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2: cg12694063 (1cg)
+-M6: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2: cg02084114, cg12694063, cg13596235 y cg04706801 (4cg)
+-M7: Mvalues ~ gene_counts + age + sex + smoking + anc_1 + anc_2: cg02084114, cg12694063, cg13596235 y cg04706801 (4cg) 
+-M8: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg02084114, cg12694063, cg13596235 y cg04706801 (4cg) 
+-M9: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 + caso/control: cg12694063 y cg13596235 (2cg)
+-MC: Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg12694063 (1cg)
+De momento nos quedamos con el M6 (Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2) porque tienen variables biologicas y tecnicas, se quita cell porque nos elimina los cg significativos, caso/control porque no es lo que buscamos con nuestro estudio de los CYPs y ancestriaporque la poblacion es toda europea y no es el objetivo de nuestro estudio y hemos visto que no afecta, asi que nos quedamos con lo minimo neceario para que sea fiable y no haya sobreajuste  
+## Para CYP3A4 
+-MS: Mvalues ~ gene_counts: cg11449766 y cg09914773 (2cg)
+-M1: Mvalues ~ gene_counts + age + sex: cg11449766 y cg09914773 (2cg)
+-M6: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2: cg11449766 y cg09914773 (2cg)
+-MC: Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg11449766 y cg09914773 (2cg)
+Da igual el modelo que se coja salen siempre esas dos CpGs 
+### cg significativas de CYP3A5 
+Se analizan las cg significativas en CpGs_por_CYP_ventana100kb_con_betas (para ver donde estan) y se marcan en amarillo 
+1. Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 
+-cg02084114 (LogFC positivo: más expresión = más metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99337507%2D99937506&hgsid=4031321989_w4YZAy5JodQVbAyoa1WZezXWYnbx
+-cg12694063 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99531818%2D99731817&hgsid=4031331559_IbEHtV4kM0g20nywdJV1gauUmiQQ
+-cg13596235 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99532028%2D99732027&hgsid=4031502761_oK6msl8c1aKahG7mw89Ip6Hkia0d
+-cg04706801 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99524259%2D99724258&hgsid=4031935157_CCFgVliD8gFAA4ReVQ4xDHn8wyZo
+-cg05008948 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99533591%2D99733590&hgsid=4031937755_SlqfxAtdPHat5athFcJjbC6sYNGq
+### cg significativas de CYP3A4 
+Se analizan las cg significativas en CpGs_por_CYP_ventana100kb_con_betas (para ver donde estan) y se marcan en amarillo 
+-cg11449766 (LogFC positivo: más expresión = más metilación): no sale buscando la cg en UCSC asi que se busca su posicion (99860727) cae en CYP3A43 https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99754539%2D99868513&hgsid=4031942255_kRKx7wyuAudr4gAQB4vW6a1371AY
+-cg09914773 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99752211%2D99789608&hgsid=4031942255_kRKx7wyuAudr4gAQB4vW6a1371AY
+
+
+
+### 01/06/26
+### Objetivo
+-Hacer regresion lineal tipo metabolizador con expresion (gene counts) sin covariables (gene_counts ~ metabolizador (factor) SOLO para los CYPS con info de metabolizador)
+### Modelo simple sobre los 238 individuos de epi 
+## 1.Transcriptomica: ya estan las gene_counts (CYP_gene_counts_normalizadas_nombres_transcriptomica_238_individuos) 
+## 2.Tipo metabolizador: filtrar y formatear los datos de input 
+Se parte del excel salida_genostar_filtrado_epi y se filtra para solo tener la info del matbolizer status y de la misma forma, se guarda en CYP_metabolizador_nombres_genostar_238_individuos
+## 3.Fusion: Aplicar modelos 
+Con script_modelos_metabolizador_transcriptomica, se hace un modelo lineal sin basarse en limma y no hay correlación en ninguno de los casos
+### Resultados 
+No sale nada significativo 
+
+
+### 02/06/26
+### Objetivo
+-Hacer regresion lineal tipo metabolizador con expresion (gene counts) sin covariables (gene_counts ~ metabolizador (factor) SOLO para los CYPS con info de metabolizador) para los 660 individuos 
+### Modelo simple sobre los 660 individuos de transcriptomica 
+## 1.Transcriptomica: filtrar las gene counts para los 660 individuos de genostar (CYP_gene_counts_normalizadas_nombres_transcriptomica_660_individuos)
+Se parte de gene_counts_722_individuos_normalizados y se filtra para los 660 individuos de genostar y para los CYPS 
+## 2.Tipo metabolizador: filtrar y formatear los datos de input 
+Se parte del excel salida_genostar_filtrado y se filtra para solo tener la info del matbolizer status y de la misma forma, se guarda en CYP_metabolizador_nombres_genostar_660_individuos
+## 3.Fusion: Aplicar modelos 
+Con script_modelos_metabolizador_transcriptomica, se hace un modelo lineal sin basarse en limma y no hay correlación en ninguno de los casos
+### Resulatadps 
+
+-Hacer modelo simple expresion y metabolizador para los 660 individuos (me quedado en el paso 2 y 3)
+-Mirar si las del CYP3A5 son DMR mirando si el P-valor (no ajustado) hace una escalera 
+-Hacer la regresion lineal (epi y trasncriptomica) para el ZSCAN5 en base a las cg significativas de CYP3A5
+
+
+### 03/06/26
+-Poster CBM 
+
+
+
+
+-Ver correo process CYP2D6, pero creo que el bajo call rate va a venir de que no tneemos rs que definen alelos segun proces_cyp2d6 y sobretodo se pierden muchos *1
+-Analizar los links de las CpGs significativas para ver los genes
+-Decidir las covariables de expresion con metilacion

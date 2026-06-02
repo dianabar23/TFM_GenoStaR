@@ -350,8 +350,11 @@ write_xlsx(CYP2B6_Allele_def_rs_excluidos, "CYP2B6_Allele_def_rs_excluidos.xlsx"
 
 ### PARA CYP2D6: sobre TODOS los individuos, luego se hace el genostar
 #1. Tabla de refencia de genostar (descargada de su github)
-setwd("X:/Fobos/Proyecto_Diana/TFM_GenoStaR")
+setwd("Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Genostar/CYPs/CYP2D6")
 load("CYP2D6_Allele_def.rda")
+
+genotypes <- matrix_geno_fixed
+
 # Extraemos los nombres de las columnas de referencia (ej: "rs123", "rs456")
 # Asumimos que la primera columna es el nombre del alelo y las demás son los SNPs
 cols_referencia <- colnames(CYP2D6_Allele_def)[-1]
