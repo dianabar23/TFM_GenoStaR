@@ -14,14 +14,14 @@ suppressMessages({
 ##################
 
 ### 1. CARGAR TIPO METABOLIZADOR DE LOS 238 INDIVIDUOS 
-metabolizador <- read_excel("Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Farmacogenomica_genostar/CYP_metabolizador_nombres_genostar_238_individuos.xlsx")
+metabolizador <- read_excel("Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Farmacogenomica_genostar/CYP_metabolizador_nombres_genostar_660_individuos.xlsx")
 
 metabolizador <- metabolizador %>%
   column_to_rownames("LabID.V2")
 
 ### 2. CARGAR GENE COUNTS
 gene_counts <- read_excel(
-  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Transcriptomica/CYP_gene_counts_normalizadas_nombres_transcriptomica_238_individuos.xlsx"
+  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Transcriptomica/CYP_gene_counts_normalizadas_nombres_transcriptomica_660_individuos.xlsx"
 )
 
 gene_counts <- gene_counts[, -2]

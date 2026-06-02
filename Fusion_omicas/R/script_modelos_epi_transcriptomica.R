@@ -122,7 +122,21 @@ design_CYP3A5 <- model.matrix(~ CYP3A5_expr)
 fit_CYP3A5 <- lmFit(Mvalues_CYPS[["CYP3A5"]], design_CYP3A5)
 fit_CYP3A5 <- eBayes(fit_CYP3A5)
 
+
 DMPs_CYP3A5 <- topTable(fit_CYP3A5, num = Inf, coef = "CYP3A5_expr")
+
+# Guardarlo para poder ver DMRs
+DMPs_CYP3A5_export <- data.frame(
+  CpG = rownames(DMPs_CYP3A5),
+  DMPs_CYP3A5,
+  row.names = NULL
+)
+write_xlsx(
+  DMPs_CYP3A5_export,
+  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/DMRs_CYP3A5.xlsx"
+)
+
+
 DMPs_sig_CYP3A5 <- DMPs_CYP3A5[DMPs_CYP3A5$adj.P.Val < 0.05, ]
 
 # ✔ Bonferroni dinámico (cambio mínimo)
@@ -487,4 +501,117 @@ DMPs_sig_CYP3A4_M6 <- DMPs_CYP3A4_M6[DMPs_CYP3A4_M6$adj.P.Val < 0.05,]
 # ✔ Bonferroni dinámico (cambio mínimo)
 DMPs_Bonferroni_CYP3A4_M6 <- DMPs_CYP3A4_M6[DMPs_CYP3A4_M6$P.Value < (0.05 / nrow(DMPs_CYP3A4_M6)), ]
 
+
+
+
+
+##################
+# Modelo Mvalues ~ gene_counts para cada ZSCAN25 (los gene counts son del ZSCAN y las CpGs) 
+##################
+### 1. CARGAR MVALUES (EPIGENÉTICA)
+epi <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx"
+
+cyp_genes <- c("CYP3A5")
+
+Mvalues_CYPS <- lapply(cyp_genes, function(gene) {
+  
+  df <- read_excel(epi, sheet = gene)
+  
+  ## eliminar columnas de anotación
+  df <- df[, -c(2:6)]
+  
+  df
+})
+
+names(Mvalues_CYPS) <- cyp_genes
+
+
+
+
+### 2. CARGAR GENE COUNTS
+gene_counts <- read_excel(
+  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Transcriptomica/ZSCAN25_gene_counts_normalizadas_nombres_epi_238_individuos.xlsx"
+)
+
+gene_counts <- gene_counts[, -2]  # quitar EnsemblID
+
+
+### 3. REORDENAR AMBAS VARIABLES PARA MISMO ORDEN DE MUESTRAS 
+
+common_samples <- Reduce(intersect, list(
+  colnames(Mvalues_CYPS[[1]])[-1],
+  colnames(gene_counts)
+))
+
+## reordenar expresión
+gene_counts <- gene_counts[, c("CYP_name", common_samples)]
+
+## reordenar metilación
+Mvalues_CYPS <- lapply(Mvalues_CYPS, function(df) {
+  df[, c(names(df)[1], common_samples), drop = FALSE]
+})
+
+
+### ✔ CHECK CRÍTICO DE ALINEACIÓN (NUEVO)
+stopifnot(all(common_samples == colnames(Mvalues_CYPS[[1]])[-1]))
+stopifnot(all(common_samples == colnames(gene_counts)[-1]))
+
+
+### 4. ESCALAR GENE COUNTS 
+# En este caso no se escala porque solo hay un gen 
+
+
+### 5. CREAR MATRICES (limma usa matrices)
+
+#gene counts sin escalado 
+df_gene_counts <- as.matrix(gene_counts[, -1])
+rownames(df_gene_counts) <- gene_counts$CYP_name
+
+#epi
+Mvalues_CYPS <- lapply(Mvalues_CYPS, function(df) {
+  
+  cpg_ids <- df[[1]]
+  
+  mat <- as.matrix(df[, -1])
+  mode(mat) <- "numeric"
+  
+  rownames(mat) <- cpg_ids
+  
+  mat
+})
+
+
+
+### 6. APLICAR MODELO SIMPLE SOBRE ZSCAN25
+
+ZSCAN25_expr <- as.numeric(df_gene_counts["ZSCAN25", ])
+
+dim(Mvalues_CYPS[["CYP3A5"]])
+length(ZSCAN25_expr)
+
+design_ZSCAN25 <- model.matrix(~ ZSCAN25_expr)
+fit_ZSCAN25 <- lmFit(Mvalues_CYPS[["CYP3A5"]], design_ZSCAN25)
+fit_ZSCAN25 <- eBayes(fit_ZSCAN25)
+
+
+DMPs_ZSCAN25 <- topTable(fit_ZSCAN25, num = Inf, coef = "ZSCAN25_expr")
+
+# Guardarlo para poder ver DMRs
+DMPs_ZSCAN25_export <- data.frame(
+  CpG = rownames(DMPs_ZSCAN25),
+  DMPs_ZSCAN25,
+  row.names = NULL
+)
+write_xlsx(
+  DMPs_ZSCAN25_export,
+  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/DMPs_ZSCAN25.xlsx")
+
+
+
+DMPs_sig_ZSCAN25 <- DMPs_ZSCAN25[DMPs_ZSCAN25$adj.P.Val < 0.05, ]
+
+# ✔ Bonferroni dinámico (cambio mínimo)
+DMPs_Bonferroni_ZSCAN25 <- DMPs_ZSCAN25[
+  DMPs_ZSCAN25$P.Value < (0.05 / nrow(DMPs_ZSCAN25)), 
+]
 

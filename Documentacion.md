@@ -778,12 +778,13 @@ En la hoja resumen CpGs se apunta las CpGs por gen
 ### 25/05/26
 ### Objetivo
 Sacar los modelos para la relacion entre gene counts y metilacion 
-### 1.Transcriptomica: pasar los nombres de las muestras de gene counts a formato epi 
+### Transcripcion y epi: Modelo simple: Mvalues ~ gene_counts (para todos los CYPs)
+## 1.Transcriptomica: pasar los nombres de las muestras de gene counts a formato epi 
 Con el script_relacion_nombres y el excel relacion_nombres_muestras_epi_trancriptomica que tiene ambos formatos, se cambia el excel CYP_gene_counts_nombres_transcriptomica_238_individuos a los nombres de las muestras de epi CYP_gene_counts_nombres_epi_238_individuos
-### 2.Epi: calcular los M-values a partir de los B-values para cada CYP
+## 2.Epi: calcular los M-values a partir de los B-values para cada CYP
 Con el script_transformar_Bvalues_a_Mvalues se pasan los Bvalues del excel CpGs_por_CYP_ventana100kb_con_betas a Mvalues (CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx)
 Se usa la formula M=log2(B/(1-B))
-### 3.Fusion: Aplicar modelos 
+## 3.Fusion: Aplicar modelos 
 Se adapta el script de Ines del pipeline de epigenomica (14_CaseControl_Analysis_Females_Males_limma_blood_prueba_sin_CtrlProbes3y4) a nuestro caso script modelos_epi_transcriptomica 
 ### Resultados 
 -Se sacan cg significativas en algunos genes 
@@ -796,7 +797,7 @@ Seguir con modelos_epi_transcriptomica
 -Analizar las significativas
 -Ver si es necesario el eBayes o si serviaria solo el lmfit en nuestro caso
 -Ir metiendo covariables (ver si se pueden usar los lambda para ver que modelo es el mejor)
-### Modelo simple: Mvalues ~ gene_counts (para todos los CYPs)
+### Transcripcion y epi: Modelo simple: Mvalues ~ gene_counts (para todos los CYPs)
 Se analizan las cg significativas, 
 1. Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y solo salen tres para CYP3A5 
 -Con LogFC positivo: cg02084114  (más expresión = más metilación)
@@ -804,19 +805,19 @@ Se analizan las cg significativas,
 2. Se aplica el Bonferrroni (P-valor < 0.05/CpGs) y solo salen dos de los tres de antes de CYP3A5
 -Con LogFC positivo: cg02084114  (más expresión = más metilación)
 -Con LogFC negativo: cg12694063 (más expresión = menos metilación)
-### Modelo 1:  Mvalues ~ gene_counts + age + sex (para CYP2D6, CYP3A5  porque son las que tienen gene counts)
+### Transcripcion y epi:  Modelo 1:  Mvalues ~ gene_counts + age + sex (para CYP2D6, CYP3A5  porque son las que tienen gene counts)
 Sale lo mismo que el modelo simple
-### Modelo 2:  Mvalues ~ gene_counts + age + sex + smoking (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+### Transcripcion y epi: Modelo 2:  Mvalues ~ gene_counts + age + sex + smoking (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
 Sale lo mismo que el modelo simple
-### Modelo 3:  Mvalues ~ gene_counts + age + sex + smoking + caso/control (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+### Transcripcion y epi: Modelo 3:  Mvalues ~ gene_counts + age + sex + smoking + caso/control (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
 Se analizan las cg significativas, 
 1. Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y solo sale una para CYP3A5 
 -Con LogFC negativo: cg12694063 (más expresión = menos metilación)
 2. Se aplica el Bonferrroni (P-valor < 0.05/CpGs) y sigue saliendo el de antes de CYP3A5
 -Con LogFC negativo: cg12694063 (más expresión = menos metilación)
-### Modelo 4:  Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+### Transcripcion y epi: Modelo 4:  Mvalues ~ gene_counts + age + sex + smoking + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
 No sale nada para ninguno de los genes 
-### Modelo completo:  Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
+### Transcripcion y epi: Modelo completo:  Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 (para CYP2D6 y CYP3A5 porque son las que tienen gene counts)
 No sale nada para ninguno de los genes 
 ### Resulatados
 Todo para CYP3A5 con Bonferroni
@@ -831,7 +832,7 @@ De momento nos quedamos con el M2 (Mvalues ~ gene_counts + age + sex + smoking)
 
 ### 28/05/26
 ### Objetivo
--Aplicar sobre CYP3A5 M5, M6 y M7 
+-Aplicar sobre CYP3A5 M5, M6 y M7 de Transcripcion y epi
 -Mirar que son las cg significativas de CYP3A5
 ### Resultados 
 Todo para CYP3A5 con Bonferroni
@@ -854,7 +855,7 @@ De momento nos quedamos con el M6 (Mvalues ~ gene_counts + age + sex + smoking +
 ### Objetivo
 -Hacer el modelo de nuevo sobre las gene_counts normalizadas  
 -Mirar que son las cg significativas de CYP3A5
-### Modelo simple: Mvalues ~ gene_counts (para todos los CYPs)
+### Transcripcion y epi: Modelo simple: Mvalues ~ gene_counts (para todos los CYPs)
 Solo salen significativas por Bonferroni en 
 ## Para CYP3A5
 Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y Bonferrroni (P-valor < 0.05/CpGs)
@@ -902,32 +903,73 @@ Se analizan las cg significativas en CpGs_por_CYP_ventana100kb_con_betas (para v
 
 ### 01/06/26
 ### Objetivo
--Hacer regresion lineal tipo metabolizador con expresion (gene counts) sin covariables (gene_counts ~ metabolizador (factor) SOLO para los CYPS con info de metabolizador)
-### Modelo simple sobre los 238 individuos de epi 
+-Transcripcion y metabolizador: Hacer regresion lineal tipo metabolizador con expresion (gene counts) sin covariables (gene_counts ~ metabolizador (factor) SOLO para los CYPS con info de metabolizador)
+### Transcripcion y metabolizador: Modelo simple sobre los 238 individuos de epi 
 ## 1.Transcriptomica: ya estan las gene_counts (CYP_gene_counts_normalizadas_nombres_transcriptomica_238_individuos) 
 ## 2.Tipo metabolizador: filtrar y formatear los datos de input 
 Se parte del excel salida_genostar_filtrado_epi y se filtra para solo tener la info del matbolizer status y de la misma forma, se guarda en CYP_metabolizador_nombres_genostar_238_individuos
 ## 3.Fusion: Aplicar modelos 
 Con script_modelos_metabolizador_transcriptomica, se hace un modelo lineal sin basarse en limma y no hay correlación en ninguno de los casos
-### Resultados 
 No sale nada significativo 
+-CYP2D6: 0.7955
+-CYP2B6: 0.1235
+-CYP3A5: 0.4165
+-CYP2C9: 0.8315
+-CYP2C19: 0.9055
+### Resultados 
+-Transcripcion y metabolizador:No sale nada significativo para regresion transcriptomica y tipo de metabolizador para los 238 individuos de epi 
+
 
 
 ### 02/06/26
 ### Objetivo
--Hacer regresion lineal tipo metabolizador con expresion (gene counts) sin covariables (gene_counts ~ metabolizador (factor) SOLO para los CYPS con info de metabolizador) para los 660 individuos 
-### Modelo simple sobre los 660 individuos de transcriptomica 
+-Transcripcion y metabolizador: y Hacer regresion lineal tipo metabolizador con expresion (gene counts) sin covariables (gene_counts ~ metabolizador (factor) SOLO para los CYPS con info de metabolizador) para los 660 individuos 
+-Transcripticion y epi: Mirar si las CpGs del CYP3A5 son DMR mirando si el P-valor (no ajustado) hace una escalera
+-Trascripcion y epi: Hacer la regresion lineal para el ZSCAN5 en base a las cg significativas de CYP3A5
+### Transcripcion y metabolizador: Modelo simple sobre los 660 individuos de transcriptomica 
 ## 1.Transcriptomica: filtrar las gene counts para los 660 individuos de genostar (CYP_gene_counts_normalizadas_nombres_transcriptomica_660_individuos)
 Se parte de gene_counts_722_individuos_normalizados y se filtra para los 660 individuos de genostar y para los CYPS 
 ## 2.Tipo metabolizador: filtrar y formatear los datos de input 
-Se parte del excel salida_genostar_filtrado y se filtra para solo tener la info del matbolizer status y de la misma forma, se guarda en CYP_metabolizador_nombres_genostar_660_individuos
+Se parte del excel salida_genostar_filtrado_transcriptomica y se filtra para solo tener la info del matbolizer status y de la misma forma, se guarda en CYP_metabolizador_nombres_genostar_660_individuos
 ## 3.Fusion: Aplicar modelos 
 Con script_modelos_metabolizador_transcriptomica, se hace un modelo lineal sin basarse en limma y no hay correlación en ninguno de los casos
-### Resulatadps 
+No sale nada significativo 
+-CYP2D6: 0.6132
+-CYP2B6: 0.3147
+-CYP3A5: 0.2816
+-CYP2C9: 0.5997
+-CYP2C19: 0.8067
+### Transcripcion y epi CYP3A5: analizar posible DMR 
+Analizando las posiciones de las 5 CpGs signifivativas se observa que cg02084114, cg12694063 y cg13596235 estan muy juntas y pueden ser una DMR y hay que comprobarlo 
+## 1. Obetener los p-valores (no ajustados) de las CpGs de CYP3A5 
+Se sacan con el script script_modelos_epi_transcriptomica y se guardan en DMR_CYP3A5
+## 2. Obtener las posicion de las CpGs 
+En en el excel DMR_CYP3A5 se hace BUSCARV a la hoja CYP3A5 del excel CpGs_por_CYP_ventana100kb_con_betas para obetener las posiciones 
+## 3. Se analiza si las CpGs cercanas hacen una escalera en sus p-valores (Ballon plot)
+En el excel DMR_CYP3A5 se ordena por posicion y se busca la zona con las CpGs (se marcan en rojo) y hace un ballon plot con la herramienta 
+Link: http://www.bioinformatics.com.cn/plot_basic_ballon_plot_048_en
+- Usuario: encuestadesatisfaccioncbmso@gmail.com
+- Contraseña: 123456
+- 
+### Transcripcion y epi: modelo simple: Mvalues ~ gene_counts (para ZSCAN5)
+Se sigue el procedimiento del dia 25/05/26
+## 1. Transcriptomica: gene counts del gen ZSCAN25
+1. gene_counts_722_individuos_normalizados
+2. ZSCAN25_gene_counts_normalizadas_nombres_transcriptomica_722_individuos
+3. ZSCAN25_gene_counts_normalizadas_nombres_transcriptomica_238_individuos
+4. ZSCAN25_gene_counts_normalizadas_nombres_epi_238_individuos (TRANSCIPRTOMICA)
+## 2. Epi: 104 CpGs del CYP3A5
+CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx lo uncioque se va a usar solo la hoja de CYP3A5
+## 3.Fusion: Aplicar modelos 
+Script modelos_epi_transcriptomica al final en apartado ZSCAN25 y se saca el excel DMPs_ZSCAN25 
+## 4. Evaluar si las DMPs de ZSACN25 estan en la zona DMRs de CYP3A5 
+En el excel DMPs_ZSCAN25 se hace BUSCARV a la hoja Zona DMR del excel DMRs_CYP3A5,
+### Resultados
+-Transcripcion y metabolizador: No sale nada significativo para regresion transcriptomica y tipo de metabolizador para los 660 individuos de transcriptomica
+-DMR en CYP3A5 en el ballon plot 
+-DMPs en ZSCAN25: queda por analizar 
 
--Hacer modelo simple expresion y metabolizador para los 660 individuos (me quedado en el paso 2 y 3)
--Mirar si las del CYP3A5 son DMR mirando si el P-valor (no ajustado) hace una escalera 
--Hacer la regresion lineal (epi y trasncriptomica) para el ZSCAN5 en base a las cg significativas de CYP3A5
+
 
 
 ### 03/06/26
@@ -935,7 +977,8 @@ Con script_modelos_metabolizador_transcriptomica, se hace un modelo lineal sin b
 
 
 
-
+-Ballon plot DRM en DMR_CYP3A5 (credenciales en el correo)
+-Analizar DMPs en ZSCAN25 y su relacion con las de CYP3A5
 -Ver correo process CYP2D6, pero creo que el bajo call rate va a venir de que no tneemos rs que definen alelos segun proces_cyp2d6 y sobretodo se pierden muchos *1
 -Analizar los links de las CpGs significativas para ver los genes
 -Decidir las covariables de expresion con metilacion
