@@ -488,7 +488,6 @@ DMPs_sig_CYP3A4_M1 <- DMPs_CYP3A4_M1[DMPs_CYP3A4_M1$adj.P.Val < 0.05,]
 DMPs_Bonferroni_CYP3A4_M1 <- DMPs_CYP3A4_M1[DMPs_CYP3A4_M1$P.Value < (0.05 / nrow(DMPs_CYP3A4_M1)), ]
 
 
-
 ##################
 # MODELO 6: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 
 ##################
@@ -502,6 +501,23 @@ DMPs_sig_CYP3A4_M6 <- DMPs_CYP3A4_M6[DMPs_CYP3A4_M6$adj.P.Val < 0.05,]
 DMPs_Bonferroni_CYP3A4_M6 <- DMPs_CYP3A4_M6[DMPs_CYP3A4_M6$P.Value < (0.05 / nrow(DMPs_CYP3A4_M6)), ]
 
 
+##################
+# MODELO 8: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2
+##################
+CYP3A4_expr <- as.numeric(df_gene_counts["CYP3A4", ])
+design_CYP3A4_M8 <- model.matrix(~ CYP3A4_expr + Age + Sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2, data = variables_df)
+fit_CYP3A4_M8 <- lmFit(Mvalues_CYPS[["CYP3A4"]],design_CYP3A4_M8)
+fit_CYP3A4_M8 <- eBayes(fit_CYP3A4_M8)
+DMPs_CYP3A4_M8 <- topTable(fit_CYP3A4_M8, num = Inf, coef = "CYP3A4_expr")
+DMPs_sig_CYP3A4_M8 <- DMPs_CYP3A4_M8[DMPs_CYP3A4_M8$adj.P.Val < 0.05,]
+# ✔ Bonferroni dinámico (cambio mínimo)
+DMPs_Bonferroni_CYP3A4_M8 <- DMPs_CYP3A4_M8[DMPs_CYP3A4_M8$P.Value < (0.05 / nrow(DMPs_CYP3A4_M8)), ]
+
+
+
+
+
+
 
 
 
@@ -509,39 +525,29 @@ DMPs_Bonferroni_CYP3A4_M6 <- DMPs_CYP3A4_M6[DMPs_CYP3A4_M6$P.Value < (0.05 / nro
 # Modelo Mvalues ~ gene_counts para cada ZSCAN25 (los gene counts son del ZSCAN y las CpGs) 
 ##################
 ### 1. CARGAR MVALUES (EPIGENÉTICA)
-epi <- "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx"
+epi <- "X:/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx"
 
 cyp_genes <- c("CYP3A5")
 
 Mvalues_CYPS <- lapply(cyp_genes, function(gene) {
-  
   df <- read_excel(epi, sheet = gene)
-  
   ## eliminar columnas de anotación
   df <- df[, -c(2:6)]
-  
-  df
-})
+  df})
 
 names(Mvalues_CYPS) <- cyp_genes
 
 
-
-
 ### 2. CARGAR GENE COUNTS
 gene_counts <- read_excel(
-  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Transcriptomica/ZSCAN25_gene_counts_normalizadas_nombres_epi_238_individuos.xlsx"
-)
-
+  "X:/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Transcriptomica/ZSCAN25_gene_counts_normalizadas_nombres_epi_238_individuos.xlsx")
 gene_counts <- gene_counts[, -2]  # quitar EnsemblID
 
 
 ### 3. REORDENAR AMBAS VARIABLES PARA MISMO ORDEN DE MUESTRAS 
-
 common_samples <- Reduce(intersect, list(
   colnames(Mvalues_CYPS[[1]])[-1],
-  colnames(gene_counts)
-))
+  colnames(gene_counts)))
 
 ## reordenar expresión
 gene_counts <- gene_counts[, c("CYP_name", common_samples)]
@@ -550,7 +556,6 @@ gene_counts <- gene_counts[, c("CYP_name", common_samples)]
 Mvalues_CYPS <- lapply(Mvalues_CYPS, function(df) {
   df[, c(names(df)[1], common_samples), drop = FALSE]
 })
-
 
 ### ✔ CHECK CRÍTICO DE ALINEACIÓN (NUEVO)
 stopifnot(all(common_samples == colnames(Mvalues_CYPS[[1]])[-1]))
@@ -569,30 +574,22 @@ rownames(df_gene_counts) <- gene_counts$CYP_name
 
 #epi
 Mvalues_CYPS <- lapply(Mvalues_CYPS, function(df) {
-  
   cpg_ids <- df[[1]]
-  
   mat <- as.matrix(df[, -1])
   mode(mat) <- "numeric"
-  
   rownames(mat) <- cpg_ids
-  
-  mat
-})
+  mat})
 
 
 
 ### 6. APLICAR MODELO SIMPLE SOBRE ZSCAN25
 
 ZSCAN25_expr <- as.numeric(df_gene_counts["ZSCAN25", ])
-
 dim(Mvalues_CYPS[["CYP3A5"]])
 length(ZSCAN25_expr)
-
 design_ZSCAN25 <- model.matrix(~ ZSCAN25_expr)
 fit_ZSCAN25 <- lmFit(Mvalues_CYPS[["CYP3A5"]], design_ZSCAN25)
 fit_ZSCAN25 <- eBayes(fit_ZSCAN25)
-
 
 DMPs_ZSCAN25 <- topTable(fit_ZSCAN25, num = Inf, coef = "ZSCAN25_expr")
 
@@ -604,9 +601,7 @@ DMPs_ZSCAN25_export <- data.frame(
 )
 write_xlsx(
   DMPs_ZSCAN25_export,
-  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/DMPs_ZSCAN25.xlsx")
-
-
+  "Y:/ctoma/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/DMPs_ZSCAN25_MS.xlsx")
 
 DMPs_sig_ZSCAN25 <- DMPs_ZSCAN25[DMPs_ZSCAN25$adj.P.Val < 0.05, ]
 
@@ -614,4 +609,136 @@ DMPs_sig_ZSCAN25 <- DMPs_ZSCAN25[DMPs_ZSCAN25$adj.P.Val < 0.05, ]
 DMPs_Bonferroni_ZSCAN25 <- DMPs_ZSCAN25[
   DMPs_ZSCAN25$P.Value < (0.05 / nrow(DMPs_ZSCAN25)), 
 ]
+
+
+
+
+##################
+# Modelos con covariables 
+##################
+
+### 0. EPI Y GENE COUNTS YA ESTA DE ANTES (Pasos 1-5 de modelo simple)
+
+### 1. CARGAR COVARIABLES 
+
+setwd("X:/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Archivos_necesarios")
+
+samplesheet <- as.data.frame(read_excel("samplesheet_after_QC.xlsx")) # LOAD SAMPLESHEET & EUROPEAN INFO (edad, sexo y caso/control)
+load("Mvalues_final_autosomes.RData") # LOAD M VALUES (para la variable smoking)
+load("Cellproportions.RData") # CELL TYPE PROPORTIONS (proporciones celulares)
+load("Positive_ctrlprobe_intensities.RData") # CTRL PROBES (probes de control positivo)
+load("comb_SNPs.RData") # SNPs FOR ANCESTRY PCs (CpGs en SNPs para ancestría)
+
+
+### 2. ORDENAR SAMPLES (ALINEADO CON common_samples)
+
+samples <- samplesheet[
+  match(common_samples, samplesheet$Basename),
+]
+
+stopifnot(all(samples$Basename == common_samples))
+
+
+### 3. AJUSTAR COVARIABLES
+
+Age <- scale(as.numeric(samples$Age))[, 1]
+Sex <- factor(samples$Sex)
+CaseCtrl <- factor(samples$Case_Control, levels = c("Control", "Case"))
+
+
+### SMOKING: depende del nivel de metilacion de la cg05575921, como es continua se escala
+Mvalues_smoking <- Mvalues[, common_samples, drop = FALSE]
+stopifnot("cg05575921" %in% rownames(Mvalues_smoking))
+smoking <- scale(as.numeric(Mvalues_smoking["cg05575921", ]))[, 1]
+
+
+### CELL TYPE: Hay que sacar primero los PC y luego escalar porque son continuos
+cellcounts_df <- as.data.frame(cellcounts)
+cellcounts_df <- cellcounts_df[common_samples, , drop = FALSE]
+stopifnot(nrow(cellcounts_df) > 0)
+cell_PCs = prcomp(cellcounts_df)
+cell_PCs = as.data.frame(cell_PCs$x)
+colnames(cell_PCs) <- paste0("cell_", seq_len(ncol(cell_PCs)))
+cell_PCs <- as.data.frame(scale(cell_PCs))
+
+
+### CTRL PROBES : Hay que sacar primero los PC y luego escalar porque son continuos
+ctrl <- as.data.frame(ctrl)
+ctrl <- ctrl[, common_samples, drop = FALSE]
+stopifnot(ncol(ctrl) > 0)
+ctrl_PCs <- prcomp(t(ctrl))
+ctrl_PCs <- as.data.frame(ctrl_PCs$x)
+colnames(ctrl_PCs) <- paste0("Ctrl_", seq_len(ncol(ctrl_PCs)))
+ctrl_PCs <- as.data.frame(scale(ctrl_PCs))
+
+
+### ANCESTRY: Hay que sacar primero los PC y luego escalar porque son continuos
+comb_SNPs_red <- as.data.frame(comb_SNPs)
+comb_SNPs_red <- comb_SNPs_red[, common_samples, drop = FALSE]
+stopifnot(ncol(comb_SNPs_red) > 0)
+anc_PCs <- prcomp(t(comb_SNPs_red))
+anc_PCs <- as.data.frame(anc_PCs$x)
+colnames(anc_PCs) <- paste0("anc_", seq_len(ncol(anc_PCs)))
+anc_PCs <- as.data.frame(scale(anc_PCs))
+
+
+### 4. DATAFRAME FINAL DE COVARIABLES (TU ESTRUCTURA ORIGINAL)
+
+variables_df <- data.frame(CaseCtrl = CaseCtrl, Sex = Sex, Age = Age, smoking = smoking)
+
+variables_df <- cbind(
+  variables_df,
+  cell_PCs[, 1:2],
+  ctrl_PCs[, 1:2],
+  anc_PCs[, 1:2]
+)
+
+
+### 5. APLICAR MODELOS ESPECIFICOS PARA CYP3A5 
+##################
+# MODELO 8: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2
+##################
+ZSCAN25_expr <- as.numeric(df_gene_counts["ZSCAN25", ])
+design_ZSCAN25_M8 <- model.matrix(~ ZSCAN25_expr + Age + Sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2, data = variables_df)
+fit_ZSCAN25_M8 <- lmFit(Mvalues_CYPS[["CYP3A5"]], design_ZSCAN25_M8)
+fit_ZSCAN25_M8 <- eBayes(fit_ZSCAN25_M8)
+
+DMPs_ZSCAN25_M8 <- topTable(fit_ZSCAN25_M8, num = Inf, coef = "ZSCAN25_expr")
+
+# Guardarlo para poder ver DMRs
+DMPs_ZSCAN25_export <- data.frame(
+  CpG = rownames(DMPs_ZSCAN25_M8),
+  DMPs_ZSCAN25_M8,
+  row.names = NULL
+)
+write_xlsx(
+  DMPs_ZSCAN25_export,
+  "X:/Fobos/Proyecto_Diana/TFM_GenoStaR/Fusion_omicas/Epi/DMPs_ZSCAN25_M8.xlsx")
+
+DMPs_sig_ZSCAN25_M8 <- DMPs_ZSCAN25_M8[DMPs_ZSCAN25_M8$adj.P.Val < 0.05, ]
+
+# ✔ Bonferroni dinámico (cambio mínimo)
+DMPs_Bonferroni_ZSCAN25_M8 <- DMPs_ZSCAN25_M8[
+  DMPs_ZSCAN25_M8$P.Value < (0.05 / nrow(DMPs_ZSCAN25_M8)), 
+]
+
+
+
+
+##################
+# MODELO COMPLETO:  Mvalues ~ gene_counts + age + sex + smoking + Caso/Control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2
+##################
+ZSCAN25_expr <- as.numeric(df_gene_counts["ZSCAN25", ])
+design_ZSCAN25_MC <- model.matrix(~ ZSCAN25_expr + Age + Sex + smoking + CaseCtrl + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2, data = variables_df)
+fit_ZSCAN25_MC <- lmFit(Mvalues_CYPS[["CYP3A5"]], design_ZSCAN25_MC)
+fit_ZSCAN25_MC <- eBayes(fit_ZSCAN25_MC)
+
+DMPs_ZSCAN25_MC <- topTable(fit_ZSCAN25_MC, num = Inf, coef = "ZSCAN25_expr")
+DMPs_sig_ZSCAN25_MC <- DMPs_ZSCAN25_MC[DMPs_ZSCAN25_MC$adj.P.Val < 0.05, ]
+
+# ✔ Bonferroni dinámico (cambio mínimo)
+DMPs_Bonferroni_ZSCAN25_MC <- DMPs_ZSCAN25_MC[
+  DMPs_ZSCAN25_MC$P.Value < (0.05 / nrow(DMPs_ZSCAN25_MC)), 
+]
+
 

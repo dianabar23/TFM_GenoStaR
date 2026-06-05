@@ -879,13 +879,13 @@ Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 y Bonferrr
 -M8: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg02084114, cg12694063, cg13596235 y cg04706801 (4cg) 
 -M9: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 + caso/control: cg12694063 y cg13596235 (2cg)
 -MC: Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg12694063 (1cg)
-De momento nos quedamos con el M6 (Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2) porque tienen variables biologicas y tecnicas, se quita cell porque nos elimina los cg significativos, caso/control porque no es lo que buscamos con nuestro estudio de los CYPs y ancestriaporque la poblacion es toda europea y no es el objetivo de nuestro estudio y hemos visto que no afecta, asi que nos quedamos con lo minimo neceario para que sea fiable y no haya sobreajuste  
+De momento nos quedamos con el M8: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2 porque tienen variables biologicas y tecnicas, se quita cell porque nos elimina los cg significativos, caso/control porque no es lo que buscamos con nuestro estudio de los CYPs (se mete ancestria aunque hemos visto que no afecta porque son todo europeaos), asi que nos quedamos con lo minimo neceario para que sea fiable y no haya sobreajuste  
 ## Para CYP3A4 
 -MS: Mvalues ~ gene_counts: cg11449766 y cg09914773 (2cg)
 -M1: Mvalues ~ gene_counts + age + sex: cg11449766 y cg09914773 (2cg)
 -M6: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2: cg11449766 y cg09914773 (2cg)
 -MC: Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: cg11449766 y cg09914773 (2cg)
-Da igual el modelo que se coja salen siempre esas dos CpGs 
+Da igual el modelo que se coja salen siempre esas dos CpGs asi que tambien M8 
 ### cg significativas de CYP3A5 
 Se analizan las cg significativas en CpGs_por_CYP_ventana100kb_con_betas (para ver donde estan) y se marcan en amarillo 
 1. Se considera significativas si tienen un P-valor-ajustado (FDR) >0.05 
@@ -893,7 +893,7 @@ Se analizan las cg significativas en CpGs_por_CYP_ventana100kb_con_betas (para v
 -cg12694063 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99531818%2D99731817&hgsid=4031331559_IbEHtV4kM0g20nywdJV1gauUmiQQ
 -cg13596235 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99532028%2D99732027&hgsid=4031502761_oK6msl8c1aKahG7mw89Ip6Hkia0d
 -cg04706801 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99524259%2D99724258&hgsid=4031935157_CCFgVliD8gFAA4ReVQ4xDHn8wyZo
--cg05008948 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99533591%2D99733590&hgsid=4031937755_SlqfxAtdPHat5athFcJjbC6sYNGq
+-cg05008948 (LogFC negativo: más expresión = menos metilación): https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99533591%2D99733590&hgsid=4031937755_SlqfxAtdPHat5athFcJjbC6sYNGq (esta se va al aplicar el M8)
 ### cg significativas de CYP3A4 
 Se analizan las cg significativas en CpGs_por_CYP_ventana100kb_con_betas (para ver donde estan) y se marcan en amarillo 
 -cg11449766 (LogFC positivo: más expresión = más metilación): no sale buscando la cg en UCSC asi que se busca su posicion (99860727) cae en CYP3A43 https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr7%3A99754539%2D99868513&hgsid=4031942255_kRKx7wyuAudr4gAQB4vW6a1371AY
@@ -950,7 +950,6 @@ En el excel DMR_CYP3A5 se ordena por posicion y se busca la zona con las CpGs (s
 Link: http://www.bioinformatics.com.cn/plot_basic_ballon_plot_048_en
 - Usuario: encuestadesatisfaccioncbmso@gmail.com
 - Contraseña: 123456
-- 
 ### Transcripcion y epi: modelo simple: Mvalues ~ gene_counts (para ZSCAN5)
 Se sigue el procedimiento del dia 25/05/26
 ## 1. Transcriptomica: gene counts del gen ZSCAN25
@@ -961,24 +960,58 @@ Se sigue el procedimiento del dia 25/05/26
 ## 2. Epi: 104 CpGs del CYP3A5
 CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx lo uncioque se va a usar solo la hoja de CYP3A5
 ## 3.Fusion: Aplicar modelos 
-Script modelos_epi_transcriptomica al final en apartado ZSCAN25 y se saca el excel DMPs_ZSCAN25 
+Script modelos_epi_transcriptomica al final en apartado ZSCAN25 y se saca el excel DMPs_ZSCAN25_MS 
 ## 4. Evaluar si las DMPs de ZSACN25 estan en la zona DMRs de CYP3A5 
-En el excel DMPs_ZSCAN25 se hace BUSCARV a la hoja Zona DMR del excel DMRs_CYP3A5,
+En el excel DMPs_ZSCAN25_MS se hace BUSCARV a la hoja Zona DMR del excel DMRs_CYP3A5
 ### Resultados
--Transcripcion y metabolizador: No sale nada significativo para regresion transcriptomica y tipo de metabolizador para los 660 individuos de transcriptomica
+-Transcripcion y metabolizador: No sale nada significativo para regresion transcriptomica y tipo de metabolizador para los 660 individuos de transcriptomica, tiene sentido porque el tipo de metabolizador no depende de la expresion del gen sino de la svariantes que tiene y esas son invariables, solo afectaria si tiene alguna variante framshift o de stop, que hace que no se produzca la enzima 
 -DMR en CYP3A5 en el ballon plot 
 -DMPs en ZSCAN25: queda por analizar 
-
-
 
 
 ### 03/06/26
 -Poster CBM 
 
 
-
+### 05/06/26
+### Objetivo
 -Ballon plot DRM en DMR_CYP3A5 (credenciales en el correo)
 -Analizar DMPs en ZSCAN25 y su relacion con las de CYP3A5
 -Ver correo process CYP2D6, pero creo que el bajo call rate va a venir de que no tneemos rs que definen alelos segun proces_cyp2d6 y sobretodo se pierden muchos *1
--Analizar los links de las CpGs significativas para ver los genes
--Decidir las covariables de expresion con metilacion
+### Transcripcion y epi CYP3A5: analizar posible DMR 
+Analizando las posiciones de las 5 CpGs signifivativas se observa que cg02084114, cg12694063 y cg13596235 estan muy juntas y pueden ser una DMR y hay que comprobarlo 
+## 3. Se analiza si las CpGs cercanas hacen una escalera en sus p-valores (Ballon plot)
+En el excel DMR_CYP3A5 se ordena por posicion y se busca la zona con las CpGs (se marcan en rojo) y hace un ballon plot con la herramienta 
+Link: http://www.bioinformatics.com.cn/plot_basic_ballon_plot_048_en
+- Usuario: encuestadesatisfaccioncbmso@gmail.com
+- Contraseña: 123456
+Los p-valores transforman a -log10 para qu e el cambio sea proporcional (¿Por qué usamos el signo negativo en −log10(p‑value)?
+Porque queremos que los p‑valores más pequeños (más significativos) se conviertan en números más grandes.
+Si NO pusiéramos el signo negativo: Un p‑valor pequeño (0.0001) daría un número negativo grande (−4).  Un p‑valor grande (0.8) daría un número casi cero (−0.09).
+Eso es lo contrario de lo que queremos en un gráfico donde el tamaño del globo representa significancia.)
+Se guarda en Ballon_plot_DMR_CYP3A5
+### Transcripcion y epi: modelo simple: Mvalues ~ gene_counts (para ZSCAN5)
+## 4. Evaluar si las DMPs de ZSACN25 estan en la zona DMRs de CYP3A5 
+En el excel DMPs_ZSCAN25_MS se hace BUSCARV a la hoja Zona DMR del excel DMRs_CYP3A5 y se hace hoja filtrada para FDR (quedan 29 cg) y para Bonferroni (quedan 13 cg). Sobre la hoja filtrada por Bonferroni se añade una columna con el p-valor de esas cg (BUSCARV a hoja DMR del excel DMRs_CYP3A5)
+Resultado: De las cibnco significativas de CYP3A5, cuatro estan en el supuesto DMR y la otra cg05008948 no esta en DMR pero es significativo. Se analizan las CpGs de CYP3A5 para  el gen ZSACN25 y salen 13 significativas, de las cuales tres eran de las cinco signitivas de CYP3A5 (la suleta cg05008948 y dos del DMR cg02084114 y cg04706801), las 10 restantes no son significativas en CYP3A5 pero si para ZSACN25 y de esas diez, seis estan en el supuesto DMR de CYP3A5 y las otras cuatro no estan en el DMR de CYP3A5
+### Transcripcion y epi: otros modelos para para ZSCAN5
+## 1. Transcriptomica: gene counts del gen ZSCAN25
+ZSCAN25_gene_counts_normalizadas_nombres_epi_238_individuos (TRANSCIPRTOMICA)
+## 2. Epi: 104 CpGs del CYP3A5
+CpGs_por_CYP_ventana100kb_con_Mvalues.xlsx lo uncioque se va a usar solo la hoja de CYP3A5
+## 3.Fusion: Aplicar modelos para ZSCAN25
+Script modelos_epi_transcriptomica al final en apartado ZSCAN25 y se saca el excel DMPs_ZSCAN25 
+-MS: Mvalues ~ gene_counts: (13 cg) En DMPs_ZSCAN25_MS hoja filtrada por Bonferroni 
+-M1: Mvalues ~ gene_counts + age + sex: 
+-M6: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2: (14cg)
+-M8: Mvalues ~ gene_counts + age + sex + smoking + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: (14cg) 
+-MC: Mvalues ~ gene_counts + age + sex + smoking + caso/control + cell_1 + cell_2 + Ctrl_1 + Ctrl_2 + anc_1 + anc_2: 0cg
+Nos quemos con el M8 porque asi se ha decidio antes 
+## 4. Evaluar si las DMPs de ZSACN25 estan en la zona DMRs de CYP3A5 
+En el excel DMPs_ZSCAN25_M8 se hace BUSCARV a la hoja Zona DMR del excel DMRs_CYP3A5 y se hace hoja filtrada para Bonferroni (quedan 14 cg). Sobre la hoja filtrada por Bonferroni se añade una columna con el p-valor de esas cg (BUSCARV a hoja DMR del excel DMRs_CYP3A5)
+Resultado: De las cibnco significativas de CYP3A5, cuatro estan en el supuesto DMR y la otra cg05008948 no esta en DMR pero es significativo. Se analizan las CpGs de CYP3A5 para  el gen ZSACN25 y salen 14 significativas, de las cuales tres eran de las cinco signitivas de CYP3A5 (la suleta cg05008948 y dos del DMR cg02084114 y cg04706801), las 11 restantes no son significativas en CYP3A5 pero si para ZSACN25 y de esas once, seis estan en el supuesto DMR de CYP3A5 y las otras cinco no estan en el DMR de CYP3A5
+### Genostar bajo call rate CYP2D6
+
+### Resultados 
+-DMR en CYP3A5 en Ballon_plot_DMR_CYP3A5
+-DMPs en ZSCAN25: con el modelo simple hay 13 cgs que coinciden bastante con la supuesta DMR y con el M8 hay 14cgs que coinciden bastante con la supuesta DMR, por lo que se llega a la conclusion de que esa zona tiene una tendencia y puede ser una posible DMR  
