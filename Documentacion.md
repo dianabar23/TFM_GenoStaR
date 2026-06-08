@@ -977,7 +977,6 @@ En el excel DMPs_ZSCAN25_MS se hace BUSCARV a la hoja Zona DMR del excel DMRs_CY
 ### Objetivo
 -Ballon plot DRM en DMR_CYP3A5 (credenciales en el correo)
 -Analizar DMPs en ZSCAN25 y su relacion con las de CYP3A5
--Ver correo process CYP2D6, pero creo que el bajo call rate va a venir de que no tneemos rs que definen alelos segun proces_cyp2d6 y sobretodo se pierden muchos *1
 ### Transcripcion y epi CYP3A5: analizar posible DMR 
 Analizando las posiciones de las 5 CpGs signifivativas se observa que cg02084114, cg12694063 y cg13596235 estan muy juntas y pueden ser una DMR y hay que comprobarlo 
 ## 3. Se analiza si las CpGs cercanas hacen una escalera en sus p-valores (Ballon plot)
@@ -1010,8 +1009,43 @@ Nos quemos con el M8 porque asi se ha decidio antes
 ## 4. Evaluar si las DMPs de ZSACN25 estan en la zona DMRs de CYP3A5 
 En el excel DMPs_ZSCAN25_M8 se hace BUSCARV a la hoja Zona DMR del excel DMRs_CYP3A5 y se hace hoja filtrada para Bonferroni (quedan 14 cg). Sobre la hoja filtrada por Bonferroni se añade una columna con el p-valor de esas cg (BUSCARV a hoja DMR del excel DMRs_CYP3A5)
 Resultado: De las cibnco significativas de CYP3A5, cuatro estan en el supuesto DMR y la otra cg05008948 no esta en DMR pero es significativo. Se analizan las CpGs de CYP3A5 para  el gen ZSACN25 y salen 14 significativas, de las cuales tres eran de las cinco signitivas de CYP3A5 (la suleta cg05008948 y dos del DMR cg02084114 y cg04706801), las 11 restantes no son significativas en CYP3A5 pero si para ZSACN25 y de esas once, seis estan en el supuesto DMR de CYP3A5 y las otras cinco no estan en el DMR de CYP3A5
-### Genostar bajo call rate CYP2D6
-
 ### Resultados 
 -DMR en CYP3A5 en Ballon_plot_DMR_CYP3A5
 -DMPs en ZSCAN25: con el modelo simple hay 13 cgs que coinciden bastante con la supuesta DMR y con el M8 hay 14cgs que coinciden bastante con la supuesta DMR, por lo que se llega a la conclusion de que esa zona tiene una tendencia y puede ser una posible DMR  
+
+
+### 08/06/26
+### Objetivo
+-Ver que metaboliza CYP3A5 
+-Ver correo process CYP2D6, pero creo que el bajo call rate va a venir de que no tneemos rs que definen alelos segun proces_cyp2d6 y sobretodo se pierden muchos *1
+-Hablar con Ines del mensaje de Claudio de las CpGs 
+### Genostar bajo call rate CYP2D6
+Se ve que Genostar para asignar los diplotipos de CYP2D6 usa:
+-como para los demas CYPs la tabla de referencia (Allele_def) que usa 150rs de los cuales solo tenemos 40rs, los 110 que nos faltan no son importantes
+-por process_cyp2d6 que usa 15 SNPs, de los cuales solo tenemos 10rs, los 5 que faltan son importantes porque definen allel star especificos 
+ -rs35742686: para *1 y *3. En gnomad frecuencia de 0.01750
+ -rs5030655: para *1 y *6. En gnomad frecuencia de 0.01242
+ -rs5030656: para *1 y *9. En gnomad frecuencia de 0.03065
+ -rs5030865A: para *1, *8 y *14. En gnomad frecuencia de 0.00001531
+ -rs5030865T: *1, *8 y *14. En gnomad frecuencia de 0.00001020
+Se adapta la funciones process_cyp2d6_diana_adaptada para eliminar esos rs y se corren los scripts 
+-script_3_genostar: se genera salida_genostar_filtrado_CYP2D6_adaptado.xlsx, CYP2D6_pie_chart_nuevo.png y CYP2D6_individuos_NA_nuevo.xlsx
+-script_CALL_RATE: 97,12%
+Pero al mirar las frecuencias de los metabolizadores no cuadra mucho con lo de Clinpgx por lo que el error que se esta cometiendo es alto aunque mejore mucho el Call rate 
+### CYP3A5: farmacos metabolizados 
+https://pmc.ncbi.nlm.nih.gov/articles/PMC11625447/
+As indispensable members of the cytochrome P450 enzyme family, CYP3A4/5 are integral to the metabolism of a vast array of substrates, which can be categorized as follows: Steroid hormones, such as cortisol (Van Keulen et al., 2020), testosterone (Wu et al., 2022), and estradiol (Cheng & Zhou, 2000). Additionally, numerous lipophilic drugs necessitate CYP3A4/5 for metabolism, including benzodiazepines (Rodriguez-Antona et al., 2022), calcium channel blockers (Fuhr et al., 2022), antibiotics (Lenard et al., 2023), and specific antiepileptic medications (Zhao et al., 2021a), all of which are vital in the treatment of a myriad of diseases. While CYP3A4 and CYP3A5 share a broad substrate specificity, there are notable differences in their affinity and capacity to metabolize certain drugs. For instance, CYP3A4 is the primary enzyme involved in the metabolism of the immunosuppressant cyclosporine, which is crucial in post-organ transplant therapy (Zhai et al., 2024). In the metabolism of the immunosuppressant tacrolimus, where CYP3A5 is more efficient than CYP3A4 (Hannachi et al., 2024). 
+Para las drugs que tiene recomendacion: https://www.clinpgx.org/gene/PA131/labelAnnotation
+
+
+
+
+-Evaluar la estrategia para mejorar el call rate de CYP2D6
+-Correr los scripts 4 con las modificaciones de process_cyp2d6 
+-Hablar con Ines del mensaje de Claudio de las CpGs 
+
+
+BIBLIOGRAFIA
+https://pmc.ncbi.nlm.nih.gov/articles/PMC11625447/
+As indispensable members of the cytochrome P450 enzyme family, CYP3A4/5 are integral to the metabolism of a vast array of substrates, which can be categorized as follows: Steroid hormones, such as cortisol (Van Keulen et al., 2020), testosterone (Wu et al., 2022), and estradiol (Cheng & Zhou, 2000). Additionally, numerous lipophilic drugs necessitate CYP3A4/5 for metabolism, including benzodiazepines (Rodriguez-Antona et al., 2022), calcium channel blockers (Fuhr et al., 2022), antibiotics (Lenard et al., 2023), and specific antiepileptic medications (Zhao et al., 2021a), all of which are vital in the treatment of a myriad of diseases. While CYP3A4 and CYP3A5 share a broad substrate specificity, there are notable differences in their affinity and capacity to metabolize certain drugs. For instance, CYP3A4 is the primary enzyme involved in the metabolism of the immunosuppressant cyclosporine, which is crucial in post-organ transplant therapy (Zhai et al., 2024). In the metabolism of the immunosuppressant tacrolimus, where CYP3A5 is more efficient than CYP3A4 (Hannachi et al., 2024). 
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10197210/pdf/dmd.122.001007.pdf
