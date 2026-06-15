@@ -1018,7 +1018,6 @@ Resultado: De las cibnco significativas de CYP3A5, cuatro estan en el supuesto D
 ### Objetivo
 -Ver que metaboliza CYP3A5 
 -Ver correo process CYP2D6, pero creo que el bajo call rate va a venir de que no tneemos rs que definen alelos segun proces_cyp2d6 y sobretodo se pierden muchos *1
--Hablar con Ines del mensaje de Claudio de las CpGs 
 ### Genostar bajo call rate CYP2D6
 Se ve que Genostar para asignar los diplotipos de CYP2D6 usa:
 -como para los demas CYPs la tabla de referencia (Allele_def) que usa 150rs de los cuales solo tenemos 40rs, los 110 que nos faltan no son importantes
@@ -1032,20 +1031,42 @@ Se adapta la funciones process_cyp2d6_diana_adaptada para eliminar esos rs y se 
 -script_3_genostar: se genera salida_genostar_filtrado_CYP2D6_adaptado.xlsx, CYP2D6_pie_chart_nuevo.png y CYP2D6_individuos_NA_nuevo.xlsx
 -script_CALL_RATE: 97,12%
 Pero al mirar las frecuencias de los metabolizadores no cuadra mucho con lo de Clinpgx por lo que el error que se esta cometiendo es alto aunque mejore mucho el Call rate 
-### CYP3A5: farmacos metabolizados 
+### CYP3A5: fármacos metabolizados 
 https://pmc.ncbi.nlm.nih.gov/articles/PMC11625447/
 As indispensable members of the cytochrome P450 enzyme family, CYP3A4/5 are integral to the metabolism of a vast array of substrates, which can be categorized as follows: Steroid hormones, such as cortisol (Van Keulen et al., 2020), testosterone (Wu et al., 2022), and estradiol (Cheng & Zhou, 2000). Additionally, numerous lipophilic drugs necessitate CYP3A4/5 for metabolism, including benzodiazepines (Rodriguez-Antona et al., 2022), calcium channel blockers (Fuhr et al., 2022), antibiotics (Lenard et al., 2023), and specific antiepileptic medications (Zhao et al., 2021a), all of which are vital in the treatment of a myriad of diseases. While CYP3A4 and CYP3A5 share a broad substrate specificity, there are notable differences in their affinity and capacity to metabolize certain drugs. For instance, CYP3A4 is the primary enzyme involved in the metabolism of the immunosuppressant cyclosporine, which is crucial in post-organ transplant therapy (Zhai et al., 2024). In the metabolism of the immunosuppressant tacrolimus, where CYP3A5 is more efficient than CYP3A4 (Hannachi et al., 2024). 
 Para las drugs que tiene recomendacion: https://www.clinpgx.org/gene/PA131/labelAnnotation
 
 
 
-
--Evaluar la estrategia para mejorar el call rate de CYP2D6
--Correr los scripts 4 con las modificaciones de process_cyp2d6 
+### 08/06/26
+### Objetivo
 -Hablar con Ines del mensaje de Claudio de las CpGs 
+-Error CYP2D6 
+### Error CYP2D6
+Se deja apuntado en el cuaderno
+### Boxplot DMR CYP3A5 
+## 1. Epi: coger los Mvalues solo de las 4 CpGs significativas para CYP3A5 que estan en el DMR 
+Se filtra CpGs_por_CYP_ventana100kb_con_Mvalues a CpGsig_DMR_CYP3A5_Mvalues
+## 2. Transcriptomica: se coge CYP_gene_counts_normalizadas_nombres_epi_238_individuos 
+## 3. Boxplots  
+-Boxplot_DMR_CYP3A5_all_CpGs: con el script script_boxplot_DMR_CYP3A5_all_CpGs, que evalua la relacion entre el nivel de metilacion medio (se hace la media antes de todas las CpGs y luego ya la mediana para hacer el nivel) y las gene counts. No nos da mucha informacion porque junta las cuatro CpGs 
+-Boxplot_DMR_CYP3A5_CpGs_separadas_mediana: con el script script_boxplot_DMR_CYP3A5_CpGs_separadas, evalua el nivel de metilacion (usando la mediana) y las gene counts para cada CpG significativa. Se ve que la CpG con LogFC positivo a más metilacion más gene counts y para los otros tres CpGs con LogFC negativo, a más metilación menos gene counts (se hace el Wilcoxon para ver significacia y todas son significativas excepto cg12694063)
+-Boxplot_DMR_CYP3A5_CpGs_separadas_deciles: con el script script_boxplot_DMR_CYP3A5_CpGs_separadas, evalua el nivel de metilacion (usando los deciles (bajo para deciles 1,2,3 y 4 y alto para deciles 7,8,9 y 10)) y las gene counts para cada CpG significativa. Se ve que la CpG con LogFC positivo a más metilacion más gene counts y para los otros tres CpGs con LogFC negativo, a más metilación menos gene counts (se hace el Wilcoxon para ver significacia y todas son significativas)
+### Resultados 
+Los bvoxplots reafirman lo encontrado antes respecto a la DMR y el wilcoxon sale significativo 
+
+
+
+-Evaluar los boxplots y losp-valores  
+-Decidir el modelo para aplicar en transcriptomica y epi
+-Hablar del errorde CYP2D6 con Ines
+
+### Error CYP2D6 
+El SNP rs1058164, incluido en algunas tablas de definición de alelos de CYP2D6 como modulador de expresión, no estaba disponible en nuestra plataforma y no se consideró en la asignación de fenotipos.
 
 
 BIBLIOGRAFIA
 https://pmc.ncbi.nlm.nih.gov/articles/PMC11625447/
 As indispensable members of the cytochrome P450 enzyme family, CYP3A4/5 are integral to the metabolism of a vast array of substrates, which can be categorized as follows: Steroid hormones, such as cortisol (Van Keulen et al., 2020), testosterone (Wu et al., 2022), and estradiol (Cheng & Zhou, 2000). Additionally, numerous lipophilic drugs necessitate CYP3A4/5 for metabolism, including benzodiazepines (Rodriguez-Antona et al., 2022), calcium channel blockers (Fuhr et al., 2022), antibiotics (Lenard et al., 2023), and specific antiepileptic medications (Zhao et al., 2021a), all of which are vital in the treatment of a myriad of diseases. While CYP3A4 and CYP3A5 share a broad substrate specificity, there are notable differences in their affinity and capacity to metabolize certain drugs. For instance, CYP3A4 is the primary enzyme involved in the metabolism of the immunosuppressant cyclosporine, which is crucial in post-organ transplant therapy (Zhai et al., 2024). In the metabolism of the immunosuppressant tacrolimus, where CYP3A5 is more efficient than CYP3A4 (Hannachi et al., 2024). 
 https://pmc.ncbi.nlm.nih.gov/articles/PMC10197210/pdf/dmd.122.001007.pdf
+
