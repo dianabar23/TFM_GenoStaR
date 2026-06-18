@@ -1038,7 +1038,7 @@ Para las drugs que tiene recomendacion: https://www.clinpgx.org/gene/PA131/label
 
 
 
-### 08/06/26
+### 15/06/26
 ### Objetivo
 -Hablar con Ines del mensaje de Claudio de las CpGs 
 -Error CYP2D6 
@@ -1057,9 +1057,16 @@ Los bvoxplots reafirman lo encontrado antes respecto a la DMR y el wilcoxon sale
 
 
 
--Evaluar los boxplots y losp-valores  
--Decidir el modelo para aplicar en transcriptomica y epi
+
+### 18/06/26
+### Objetivo
+-Hacer los boxplot para cda CpG del nivel de metilacion (usando la mediana) y los Mvalues y añadir el Wilcoxon 
+-Hacer figura del gen CYP3A5 con las CpGs y los boxplots 
+-Decidir el modelo para aplicar en transcriptomica y epi: nos quedamos con solo sexo y edade de covariables 
 -Hablar del errorde CYP2D6 con Ines
+-Correr Genostar cambiando las rs que usa process_cyp2d6 que nosotros no teniamos 
+-Cambiar error Genostar CYP2D6 
+-Cambair call rate Genostar CYP2D6 
 
 ### Error CYP2D6 
 El SNP rs1058164, incluido en algunas tablas de definición de alelos de CYP2D6 como modulador de expresión, no estaba disponible en nuestra plataforma y no se consideró en la asignación de fenotipos.
